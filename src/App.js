@@ -1,14 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Home from './components/Home';
+import Login from './components/Login';
+
+
+// injectTapEventPlugin();
+
 
 class App extends Component {
-  
+
   render() {
     return (
-      <div className="App">
-        this is app
-      </div>
+      <MuiThemeProvider>
+        <Router>
+          <div>
+          <Route exact path="/" component={Home}/>
+          <Route exact path="/login" component={Login}/>
+          </div>
+        </Router>
+      </MuiThemeProvider>
+
     );
   }
 }
