@@ -7,6 +7,11 @@ import {
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Home from './components/Home';
 import Login from './components/Login';
+import Register from './components/Register';
+import Bucketlist from './components/Bucketlist';
+// import AddBucketlist from './components/AddBucketlist';
+// import EditBucket from './components/EditBucketlist';
+
 
 
 // injectTapEventPlugin();
@@ -21,6 +26,10 @@ class App extends Component {
           <div>
           <Route exact path="/" component={Home}/>
           <Route exact path="/login" component={Login}/>
+          <Route exact path="/register" component={Register}/>
+          <Route exact path="/bucketlist" component={Bucketlist}/>
+          {/* <Route exact path="/addBucketlist" component={AddBucketlist}/>
+          <Route exact path="/editBucketlist" component={EditBucketlist}/> */}
           </div>
         </Router>
       </MuiThemeProvider>
