@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import AppBar from 'material-ui/AppBar';
-import RaisedButton from 'material-ui/RaisedButton';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+// import AppBar from 'material-ui/AppBar';
+// import RaisedButton from 'material-ui/RaisedButton';
+import {Card, CardMedia, CardTitle} from 'material-ui/Card';
+// import FlatButton from 'material-ui/FlatButton';
 
 
 import Navbar from './Navbar';

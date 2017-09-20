@@ -1,42 +1,81 @@
 import React, { Component } from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+import {Card, CardActions} from 'material-ui/Card';
+import Dialog from 'material-ui/Dialog';
 import {List, ListItem} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
+// import { Redirect } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
-import {blue500, yellow600} from 'material-ui/styles/colors';
-import ActionAssignment from 'material-ui/svg-icons/action/assignment';
 import ActionInfo from 'material-ui/svg-icons/action/info';
-import Avatar from 'material-ui/Avatar';
 
 
 
-import Navbar from './Navbar';
-import Addbucket from './Addbucket';
+// import Navbar from './Navbar';
+// import Addbucket from './Addbucket';
+// import Bucketlist from './Bucketlist';
 
 const axios = require('axios')
 
 class Dynamiclist extends Component {
     constructor(props) {
         super(props);
-        this.state = {            
+        this.state = {
+            open : false,
+            redirect:false,            
         };
+      }
+      handleOpen = () => {
+        this.setState({open: true});
+      };
+    
+      handleClose = () => {
+        this.setState({open: false});
+      };
+
+      delete(id){
+        console.log('heeeee ile id nkt', id)
+        axios.delete(`http://127.0.0.1:5000/bucketlist/${id}/`,
+            {
+                headers: {"Authorization": localStorage.getItem('token')}
+            }).then((response) => {
+                console.log(response.data)
+            })
+
       }
 
     render(){
+        // console.log(this.props)
+        const actions = [
+            <FlatButton
+              label="Cancel"
+              primary={true}
+              onClick={this.handleClose}
+            />,
+          ];
         return(
             <div>
                 <List>
-                    <ListItem
-                        leftAvatar={<Avatar icon={<ActionAssignment />} backgroundColor={blue500} />}
-                        rightIcon={<ActionInfo />}
-                        primaryText="Vacation itinerary"
-                        secondaryText="Jan 20, 2014"
-                    />
+                    <Card>
+                        <ListItem
+                            onClick={this.handleOpen}
+                            rightIcon={<ActionInfo />}
+                            primaryText={this.props.bucketobj.title}
+                        />
+                        <CardActions>
+                            <FlatButton type="submit" label="Edit" primary={true}  />
+                            <FlatButton label="Delete" secondary={true} onClick={() => this.delete(this.props.bucketobj.id)}/>
+                        </CardActions>
+                    </Card>  
                 </List>
-
-            </div>
+      <div>
+        <Dialog
+          title={this.props.bucketobj.title}
+          actions={actions}
+          modal={true}
+          open={this.state.open}
+        >
+        <strong>{this.props.bucketobj.date_created}</strong><br/>
+        Let's have ourselves a little adventure shall we? wink wink
+        </Dialog>
+      </div></div>
         );
     }
 }

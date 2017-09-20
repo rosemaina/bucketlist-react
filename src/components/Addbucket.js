@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
-import Navbar from './Navbar';
+// import Navbar from './Navbar';
 
 const axios = require('axios')
 
@@ -16,10 +16,10 @@ class Addbucket extends Component {
         };
       }
     
-      handleChange = (event) => {
-          const name = event.target.name
+    handleChange = (event) => {
+        //   const name = event.target.name
           const value = event.target.value
-          this.setState({[name]: value});
+          this.setState({title: value});
       };
 
     Bucketlist = (event) => {
