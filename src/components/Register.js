@@ -10,6 +10,7 @@ const axios = require('axios')
 
 
 class Register extends Component {
+    // Props, an object argument with data that returns a React element
     constructor(props){
         // Defines the constructor
         super(props);
@@ -25,7 +26,8 @@ class Register extends Component {
             this.setState({[name]: event.target.value})
         }
     
-        Register = (event) => {
+        register = (event) => {
+            //Prevents react reloading a page
             event.preventDefault()
             axios.post('http://127.0.0.1:5000/auth/register', {
                 email: this.state.email,
@@ -46,7 +48,7 @@ class Register extends Component {
     render() {
         if (this.state.registration_success) {
             return(
-                <Redirect to='/bucketlist' />
+                <Redirect to='/login' />
             );
         }
         return (
@@ -55,7 +57,7 @@ class Register extends Component {
             <Card>
             <CardTitle title="Registration"/>
             <CardText>
-                <form onSubmit={this.Register}>
+                <form onSubmit={this.register}>
                 <TextField
                 name="email"
                 onChange={this.handleChange}

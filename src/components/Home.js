@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-// import AppBar from 'material-ui/AppBar';
-// import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardMedia, CardTitle} from 'material-ui/Card';
-// import FlatButton from 'material-ui/FlatButton';
 
 
 import Navbar from './Navbar';
@@ -12,14 +9,16 @@ class Home extends Component {
   render() {
     return (
       <div className="Home">
-        <Navbar />
+        <Navbar 
+          navBarTitle={"Ace"}  
+      />
         <Card>
     <CardMedia
-      overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
+      overlay={<CardTitle title="Explore the adventure calling" />}
     >
       <img src="static/homepage.jpg" alt="" />
     </CardMedia>
-    {/* <CardTitle title="Card title" subtitle="Card subtitle" /> */}
+    {/* <CardTitle title="Card title" subtitle="Card subtitle"  line18 = subtitle="Overlay subtitle"/> */}
   </Card>
       </div>
     );

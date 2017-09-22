@@ -30,6 +30,7 @@ class Login extends Component {
             password: this.state.password
           })
           .then(resp => {
+              console.log(resp)
               localStorage.setItem('token', resp.data['token']);
           })
           .then(() => this.setState({login_success: true }))
