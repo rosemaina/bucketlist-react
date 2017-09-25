@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Card, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardTitle, CardText, CardMedia} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import { Redirect } from 'react-router-dom';
+
 
 import Navbar from './Navbar';
 
@@ -43,10 +44,11 @@ class Login extends Component {
 
     render() {
         const style = {
-            margin: "auto",
-            width: "10%",
+            margin: "auto", 
+            // margin: "center",
+            width: "50%",
             height: "auto",
-            alignment: "center"
+            textAlign: 'center',
         }
         if (this.state.login_success) {
             return(
@@ -55,37 +57,49 @@ class Login extends Component {
         }
         return (
             <div>
-            <Navbar />
-            <Card>
-            <CardTitle title="Login"/>
-            <CardText>
-                <form onSubmit={this.login}>
-                    <TextField
-                        name="email"
-                        hintText="example@email.com"
-                        errorText="This field is required."
-                        floatingLabelText="Email"
-                        type="email"
-                        onChange = {this.handleChange}
-                    /><br />
-                    <TextField
-                        name="password"
-                        hintText="password"
-                        errorText="This field is required."
-                        floatingLabelText="Password"
-                        type="password"
-                        onChange = {this.handleChange}
-                    /><br />
-                    <RaisedButton type="submit" label="login" primary={true}/>
-                </form>
-            </CardText>
+                
+            <Navbar 
+            navBarTitle="BucketListly"
+            />
+            <Card >
+                <CardMedia
+                    overlay={
+                        <div style={style}>
+                            <CardTitle title="Explore the adventure calling" />
+                            <CardTitle title="Login here"/>
+                            <CardText color="white">
+                                <form onSubmit={this.login}>
+                                    <TextField 
+                                        name="email"
+                                        hintText="example@email.com"
+                                        floatingLabelText="Email"
+                                        type="email"
+                                        onChange = {this.handleChange}
+                                    /><br />
+
+                                    <TextField
+                                        color="white"
+                                        name="password"
+                                        hintText="password"
+                                        floatingLabelText="Password"
+                                        type="password"
+                                        onChange = {this.handleChange}
+                                    /><br />
+                                    <RaisedButton type="submit" label="login" primary={true}/>
+                                </form>
+                            </CardText>
+                        </div>
+                    }
+                    >
+                    <img src="static/clouds.jpg" alt=""/>
+                </CardMedia>
             </Card>
             </div>
         );
   }
 }
-const style = {
-    margin: 15,
-   };
+// const style = {
+//     margin: 15,
+//    };
 
 export default Login;
