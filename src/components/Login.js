@@ -50,6 +50,34 @@ class Login extends Component {
             height: "auto",
             textAlign: 'center',
         }
+        const overlayContentStyle = {
+            position: "absolute",
+            bottom: "0%",
+            top: "0%",
+            right: "0%",
+            left: "0%",
+            background: "rgba(0, 0, 0, 0.44)",
+        }
+
+        const titleStyle ={
+            color: "rgba(255, 255, 255, 0.87)",
+        }
+
+        const color={
+            color: "rgba(255, 255, 255, 0.87)",
+        }
+        const styles={
+            hintColor: {
+                color: "rgba(255, 255, 255, 0.87)",
+              },
+            floatingLabelStyle: {
+                color: "rgba(255, 255, 255, 0.87)",
+            },
+        }
+
+
+
+
         if (this.state.login_success) {
             return(
                 <Redirect to='/bucketlist' />
@@ -59,20 +87,26 @@ class Login extends Component {
             <div>
                 
             <Navbar 
-            navBarTitle="BucketListly"
+            navBarTitle="BucketListly Adventure"
             />
             <Card >
                 <CardMedia
-                    overlay={
+                    overlay={ 
                         <div style={style}>
-                            <CardTitle title="Explore the adventure calling" />
-                            <CardTitle title="Login here"/>
-                            <CardText color="white">
+                            <CardTitle 
+                            titleStyle={titleStyle}
+                            title="Explore the adventure calling" />
+                            <CardTitle 
+                            titleStyle={titleStyle}
+                            title="Login here"/>
+                            <CardText color={color}>
                                 <form onSubmit={this.login}>
                                     <TextField 
                                         name="email"
                                         hintText="example@email.com"
+                                        hintStyle={styles.hintColor}
                                         floatingLabelText="Email"
+                                        floatingLabelStyle={styles.floatingLabelStyle}
                                         type="email"
                                         onChange = {this.handleChange}
                                     /><br />
@@ -81,7 +115,9 @@ class Login extends Component {
                                         color="white"
                                         name="password"
                                         hintText="password"
+                                        hintStyle={styles.hintColor}
                                         floatingLabelText="Password"
+                                        floatingLabelStyle={styles.floatingLabelStyle}
                                         type="password"
                                         onChange = {this.handleChange}
                                     /><br />
@@ -90,8 +126,10 @@ class Login extends Component {
                             </CardText>
                         </div>
                     }
+                    overlayContentStyle={overlayContentStyle}
                     >
-                    <img src="static/clouds.jpg" alt=""/>
+                    {/* static/clouds.jpg */}
+                    <img src="static/homepage.jpg" alt=""/>
                 </CardMedia>
             </Card>
             </div>
