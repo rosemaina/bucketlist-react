@@ -18,7 +18,9 @@ class Register extends Component {
         this.state={
             email:'',
             password:'',
-            registration_success: false
+            registration_success: false,
+            error: false,
+            errorText: ''
         }}
     
         handleChange = (event) => {
@@ -29,19 +31,26 @@ class Register extends Component {
         register = (event) => {
             //Prevents react reloading a page
             event.preventDefault()
-            axios.post('http://127.0.0.1:5000/auth/register', {
-                email: this.state.email,
-                password: this.state.password
-              })
-            //   .then(resp => {
-            //       localStorage.setItem('token', resp.data['token']);
-            //   })
-              .then(() => this.setState({registration_success: true }))
-              .catch((error) => {
-                // this.setState({error: error.response.data.error})
-                // this.setState({open: true})
-                console.log(error)
-              })
+            if(this.state.email.length === 0 || this.state.password.length === 0){
+                this.setState({
+                    errorText: 'Both email and password are required',
+                    error: true
+                })
+            }else {
+                axios.post('http://127.0.0.1:5000/auth/register', {
+                    email: this.state.email,
+                    password: this.state.password
+                })
+                //   .then(resp => {
+                //       localStorage.setItem('token', resp.data['token']);
+                //   })
+                .then(() => this.setState({registration_success: true }))
+                .catch((error) => {
+                    // this.setState({error: error.response.data.error})
+                    // this.setState({open: true})
+                    console.log(error)
+                })
+                }
         }
     
 
@@ -53,30 +62,39 @@ class Register extends Component {
         }
         return (
             <div>
-            <Navbar />
+            <Navbar 
+            navBarTitle="BucketListly Adventure"/>
             <Card>
-            <CardTitle title="Registration"/>
-            <CardText>
-                <form onSubmit={this.register}>
-                <TextField
-                name="email"
-                onChange={this.handleChange}
-                hintText="example@email.com"
-                errorText="This field is required."
-                floatingLabelText="Email"
-                type="email"
-                /><br />
-                <TextField
-                name="password"
-                onChange={this.handleChange}
-                hintText="password"
-                errorText="This field is required."
-                floatingLabelText="Password"
-                type="password"
-                /><br />
-                <RaisedButton type="submit" label="Sign up" primary={true}/>
-                </form>
-            </CardText>
+                <CardTitle title="Registration"/>
+                    <CardText>
+                        <form onSubmit={this.register}>
+                            <TextField
+                            name="email"
+                            onChange={this.handleChange}
+                            hintText="example@email.com"
+                            floatingLabelText="Email"
+                            type="email"
+                            />
+                            {
+                            this.state.error && 
+                            <p>{this.state.errorText}</p>
+                            }
+                            <br />
+                            <TextField
+                            name="password"
+                            onChange={this.handleChange}
+                            hintText="password"
+                            floatingLabelText="Password"
+                            type="password"
+                            />
+                            {
+                            this.state.error && 
+                            <p>{this.state.errorText}</p>
+                            }
+                            <br />
+                            <RaisedButton type="submit" label="Sign up" primary={true}/>
+                        </form>
+                    </CardText>
             </Card>
             </div>
         );

@@ -27,16 +27,19 @@ import RaisedButton from 'material-ui/RaisedButton';
 // }
 
 const Navbar = ({navBarTitle}) => {
+
+  
   return (
     <div className="Navbar">
     <AppBar
+      showMenuIconButton={false}
       title={navBarTitle}
       iconElementRight={
         <div>
         <Link to={'/login'}><FlatButton label="Login" /></Link>
         <Link to={'/register'}><RaisedButton label="Sign up" primary={true} /></Link>
-        <Link to={'/logout'}><FlatButton label="Logout" secondary={true} /></Link>
       </div>
+      
       }
       
     />
