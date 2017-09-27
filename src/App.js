@@ -10,6 +10,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Bucketlist from './components/Bucketlist';
 import Item from './components/Item';
+import Logout from './components/Logout';
 
 
 // injectTapEventPlugin();
@@ -26,7 +27,8 @@ class App extends Component {
           <Route exact path="/login" component={Login}/>
           <Route exact path="/register" component={Register}/>
           <Route exact path="/bucketlist" component={Bucketlist}/>
-          <Route exact path="/item" component={Item}/>
+          {/* <Route exact path="/item" component={Item}/> */}
+          <Route exact path="/logout" component={Logout}/>
           </div>
         </Router>
       </MuiThemeProvider>
