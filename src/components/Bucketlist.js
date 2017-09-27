@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar';
+import LogoutNav from './LogoutNav';
 import Addbucket from './Addbucket';
 import Dynamiclist from './Dynamiclist'
 
@@ -11,7 +11,7 @@ class Bucketlist extends Component {
         super(props);
         this.state = {
             bucketlists: [],
-            title:'', 
+            title:''
         };
       }
     handleChange = (event) => {
@@ -75,6 +75,7 @@ class Bucketlist extends Component {
     
 
     handleUpdateBucketlist = (id)=> {
+        console.log(id)
         axios.put(BASE_URL + `/bucketlist/${id}/`,
         {title: this.state.title},
         {
@@ -88,6 +89,7 @@ class Bucketlist extends Component {
     }
 
     handleDeleteBucketlist = (id) => {
+        console.log(id)
         axios.delete(BASE_URL + `/bucketlist/${id}/`,
         {
             headers: {"Authorization": localStorage.getItem('token')}
@@ -122,10 +124,11 @@ class Bucketlist extends Component {
         })
         return(
             <div>
-                <Navbar 
-                navBarTitle='BucketList'/>
+                <LogoutNav 
+                navBarTitle='BucketListly Adventure'/>
                 <div style = {style}>
-                    <Addbucket 
+                    <Addbucket
+                    title={this.state.title}
                     newBucketlist={this.handleAddBucketlist} 
                     handleChange={this.handleChange}/><br/>
                     {bucketlist}
