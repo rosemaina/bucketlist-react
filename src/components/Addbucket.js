@@ -11,8 +11,8 @@ const Addbucket = (props) => {
                 <Card >
                     <form onSubmit={props.newBucketlist}>
                         <TextField
+                            placeholder="Name"
                             name="title"
-                            hintText="Name your bucket!"
                             onChange={props.handleChange}
                             floatingLabelFixed={true}
                             value={props.title}
