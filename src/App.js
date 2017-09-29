@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
-  Route,
-  // Link
+  Route
 } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import Bucketlist from './components/Bucketlist';
-import Item from './components/Item';
-import Logout from './components/Logout';
+import ChangePassword from './components/ChangePassword';
+import BucketItems from './components/BucketItems';
 
 
 // injectTapEventPlugin();
@@ -27,8 +26,8 @@ class App extends Component {
           <Route exact path="/login" component={Login}/>
           <Route exact path="/register" component={Register}/>
           <Route exact path="/bucketlist" component={Bucketlist}/>
-          {/* <Route exact path="/item" component={Item}/> */}
-          <Route exact path="/logout" component={Logout}/>
+          <Route exact path="/bucketlist/:id/item" component={BucketItems}/>
+          <Route exact path="/changepassword" component={ChangePassword}/>
           </div>
         </Router>
       </MuiThemeProvider>
