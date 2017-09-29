@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
-import LogoutNav from './LogoutNav';
+import Navbar from './Navbar';
 import Addbucket from './Addbucket';
 import Dynamiclist from './Dynamiclist'
+import { Redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import AlertTexts from './AlertTexts';
+
 
 const axios = require('axios')
 const BASE_URL = 'http://127.0.0.1:5000'
+
 
 class Bucketlist extends Component {
     constructor(props) {
         super(props);
         this.state = {
             bucketlists: [],
-            title:''
+            title:'',
+            logout_success: false,
+            textSearch: '',
         };
       }
     handleChange = (event) => {
@@ -30,7 +37,20 @@ class Bucketlist extends Component {
             })
         }).catch((error)=>{
             console.log(error)
+            
         })
+    }
+
+
+    handleSearch = () =>{
+        axios.get(BASE_URL + '/bucketlist'+'?q='+ this.state.textSearch,
+        {headers: {
+            "Authorization": localStorage.getItem('token'),
+            "content-Type":'application/json'
+        }
+        }).then(response => this.setState({
+            bucketlist :response.data.bucketlist
+        }))
     }
 
     handleNewBucketlist(bucketlist){
@@ -42,16 +62,6 @@ class Bucketlist extends Component {
     }
 
     handleAddBucketlist = (event) =>{
-        // First get the bucketlist from the form in the render function.
-        // Render create a form that takes in input
-        // Get data from the form and pass it to the onSubit i.e <form onSubmit={this.handleAddBucketlist} 
-        // The above goes to the Backend
-        // let bucketlist = what is gotten from the form
-        // empty object
-        // let currentState = this.state.bucketlists
-        // let updatedState = currentState.push(bucketlist)
-        // this.setState({bucketlists: updatedState })
-
         event.preventDefault()
         axios.post(BASE_URL + '/bucketlist/', {
             title: this.state.title
@@ -68,39 +78,54 @@ class Bucketlist extends Component {
           this.getBucketlist()          
         })
           .catch((error) => {
-            console.log(error)
+            toast.error(error.response.data.error)
           })
 
     }
-    
 
+    // Method edits a bucketlist title
     handleUpdateBucketlist = (id)=> {
-        console.log(id)
         axios.put(BASE_URL + `/bucketlist/${id}/`,
         {title: this.state.title},
         {
             headers: {"Authorization": localStorage.getItem('token')}
-        }).then((response) => {
+        })
+        .then((response) => {
             this.getBucketlist()
-            console.log(response.data)
-        }).catch((error) => {
-            console.log(error)
+        })
+        .catch((error) => {
+            toast.error(error.response.data.error)
         })
     }
 
+    // Method deletes a bucketlist object using its id
     handleDeleteBucketlist = (id) => {
-        console.log(id)
         axios.delete(BASE_URL + `/bucketlist/${id}/`,
         {
             headers: {"Authorization": localStorage.getItem('token')}
-        }).then((response) => {
-            this.getBucketlist()
-                console.log(response.data)
-            })
+        })
+        .then((response) => {
+            toast.success(response.data.message)
+            this.getBucketlist();
+            
+        })
+        .catch((error) => {
+            toast.error(error.response.data.error)
+        })
         }
 
     componentWillMount(){
         this.getBucketlist()
+    }
+
+    // Method logs out a user 
+    handleLogout =(event) =>{
+        console.log('Clicked')
+        event.preventDefault()
+        localStorage.removeItem('token');
+        this.setState({
+            logout_success: true
+        })
     }
 
     render(){
@@ -110,9 +135,7 @@ class Bucketlist extends Component {
             height: "auto",
             textAlign: "center"
         }
-        // console.log(this.state.bucketlists)
         let bucketlist = this.state.bucketlists.map((bucket, index) => {
-            {/* <p>{bucketlist.title}</p> */}
             return (
                 <Dynamiclist 
                 key={index} 
@@ -122,10 +145,18 @@ class Bucketlist extends Component {
                 handleChange={this.handleChange}/>
             );
         })
+
+        if (this.state.logout_success) {
+            return(
+                <Redirect to='/login' />
+            );
+        }
         return(
+            
             <div>
-                <LogoutNav 
-                navBarTitle='BucketListly Adventure'/>
+                <Navbar 
+                navBarTitle='BucketListy Adventure'
+                logout={this.handleLogout}/>
                 <div style = {style}>
                     <Addbucket
                     title={this.state.title}
@@ -133,11 +164,12 @@ class Bucketlist extends Component {
                     handleChange={this.handleChange}/><br/>
                     {bucketlist}
                 </div>
-                {}
+                <AlertTexts />
             </div>
         );
     }
 }
+
 export default Bucketlist;
 
 
