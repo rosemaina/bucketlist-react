@@ -5,8 +5,12 @@ import {List, ListItem} from 'material-ui/List';
 import FlatButton from 'material-ui/FlatButton';
 import ActionInfo from 'material-ui/svg-icons/action/info';
 import TextField from 'material-ui/TextField';
-import Item from './Item';
+import { toast } from 'react-toastify';
+import AlertTexts from './AlertTexts';
+import {Link} from 'react-router-dom';
 
+
+import BucketItems from './BucketItems';
 
 
 const axios = require('axios')
@@ -22,19 +26,18 @@ class Dynamiclist extends Component {
             openAdd: false,
             redirect:false,
             items:[],
-            name:'',
-            // newItems : []
-            
+            name:''            
         };
       }
 
-
+    //   Method changes state for every instance of input
       handleChange = (event) => {
           this.setState({
             // Value of input box which has this value
             name: event.target.value
         })
     }
+
     // This method gets a bucketlist's items using its id
       getBucketItem = (id) => {
         //   console.log('id', id)
@@ -95,10 +98,11 @@ class Dynamiclist extends Component {
           })
           //this.handleNewItem(response.data.name) 
           this.handleClose()
-          this.getBucketItem(id)      
+          this.getBucketItem(id)
+          toast.success("Item created successfully")    
         })
           .catch((error) => {
-            console.log(error)
+            toast.error(error.response.data.error)
           })
 
     }
@@ -113,9 +117,8 @@ class Dynamiclist extends Component {
         })
     }
 
-    // DISPLAYS 
+
     render(){
-        // console.log(this.props)
         const actions = [
             <FlatButton
               label="Cancel"
@@ -124,24 +127,24 @@ class Dynamiclist extends Component {
             />,
           ];
 
-        //   LOOPS THROUGH THE ITEMS ARRAY AND FINDS AN ITEM OBJECT
-        //   let itemsArray = []
-        //   if (this.state.items > 0 ){
         return(
             <div>
                 <List>
+                    {/* This card displays the title,edit and delete button */}
                     <Card>
-                        <ListItem
-                            onClick={(event) => this.handleOpen(event, this.props.bucketobj.id)}
-                            rightIcon={<ActionInfo />}
-                            primaryText={this.props.bucketobj.title}/>
+                        <Link to={`/bucketlist/${this.props.bucketobj.id}/item`}>
+                            <ListItem
+                                rightIcon={<ActionInfo />}
+                                primaryText={this.props.bucketobj.title}
+                            />
+                        </Link>
 
                         <CardActions>
                             <FlatButton 
                                 label="Edit" 
                                 primary={true}
                                 onClick={this.handleOpenEdit}
-                                />
+                            />
 
                             <FlatButton 
                             label="Delete" 
@@ -149,11 +152,12 @@ class Dynamiclist extends Component {
                             onClick={() => this.props.handleDeleteBucketlist(this.props.bucketobj.id)}/>
 
                             <FlatButton
-                            label="Add item"
-                            onClick={this.handleOpenAdd}/>
+                                label="Add item"
+                                onClick={this.handleOpenAdd}
+                            />
 
                         </CardActions>
-                    </Card>  
+                    </Card> 
                 </List>
       <div>
 
@@ -173,14 +177,13 @@ class Dynamiclist extends Component {
                 
                     this.state.items.map((itemObj, index) => {
                         return (
-                            <Item 
+                            <BucketItems
                             key={index} 
                             itemObj={itemObj}
                             getBucketItem={this.getBucketItem}/>
                         );
                     })
                 }
-                {/* {itemsArray.length > 0  ? itemsArray: 'No items yet'} */}
             </List>
         </Dialog>
 
@@ -194,13 +197,14 @@ class Dynamiclist extends Component {
     
           <strong>{this.props.bucketobj.date_modified}</strong><br/>
             <TextField
-                name="title"
+                name="editBucketlistName"
                 hintText="Name your bucket"
                 onChange={this.props.handleChange}/>
 
                 <FlatButton 
                 type="submit" 
-                label="Submit" primary={true} 
+                label="Submit"
+                primary={true} 
                 onClick={() => {
                     this.props.handleUpdateBucketlist(this.props.bucketobj.id)
                     this.handleClose()
@@ -214,23 +218,25 @@ class Dynamiclist extends Component {
           actions={actions}
           modal={true}
           open={this.state.openAdd}
-          autoScrollBodyContent={true}>
-
+          autoScrollBodyContent={true}
+        >
           <TextField
             name="name"
             hintText="Your activites"
-            onChange={this.handleChange}/>
-
-            <FlatButton
-                type="submit"
-                label="submit" primary={true}
-
-                onClick={(event) => this.handleAddItem(event, this.props.bucketobj.id)}/>
-
+            onChange={this.handleChange}
+           />
+           <FlatButton
+            type="submit"
+            label="submit"
+            primary={true}
+            onClick={(event) => this.handleAddItem(event, this.props.bucketobj.id)}
+           />
         </Dialog>
         </div>
+        <AlertTexts />
         </div>
         );
     }
 }
+
 export default Dynamiclist;
