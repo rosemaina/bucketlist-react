@@ -7,7 +7,7 @@ import TextField from 'material-ui/TextField';
 import { toast } from 'react-toastify';
 import AlertTexts from './AlertTexts';
 
-import Navbar from './Navbar';
+import LoggedinNavBar from './LoggedinNavBar';
 
 
 const axios = require('axios')
@@ -137,7 +137,7 @@ class BucketItems extends Component {
 
         return(
             <div>
-                <Navbar
+                <LoggedinNavBar
                     navBarTitle="Bucketlisty Adventure"
                 />
 

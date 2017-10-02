@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar';
+import LoggedinNavBar from './LoggedinNavBar';
 import Addbucket from './Addbucket';
 import Dynamiclist from './Dynamiclist'
 import { Redirect } from 'react-router-dom';
@@ -21,6 +21,7 @@ class Bucketlist extends Component {
             textSearch: '',
         };
       }
+
     handleChange = (event) => {
         this.setState({
             // Value of input box which has this value
@@ -42,15 +43,18 @@ class Bucketlist extends Component {
     }
 
 
-    handleSearch = () =>{
-        axios.get(BASE_URL + '/bucketlist'+'?q='+ this.state.textSearch,
+    handleSearch = (event) => {
+        axios.get(BASE_URL + '/bucketlist'+'?q='+ event.target.value,
         {headers: {
             "Authorization": localStorage.getItem('token'),
             "content-Type":'application/json'
         }
-        }).then(response => this.setState({
-            bucketlist :response.data.bucketlist
-        }))
+        }).then(response => {
+            this.setState({
+            bucketlists :response.data.bucketlist
+        })
+        console.log('buckets', response.data.bucketlist)        
+    })
     }
 
     handleNewBucketlist(bucketlist){
@@ -154,14 +158,15 @@ class Bucketlist extends Component {
         return(
             
             <div>
-                <Navbar 
+                <LoggedinNavBar 
                 navBarTitle='BucketListy Adventure'
                 logout={this.handleLogout}/>
                 <div style = {style}>
                     <Addbucket
                     title={this.state.title}
                     newBucketlist={this.handleAddBucketlist} 
-                    handleChange={this.handleChange}/><br/>
+                    handleChange={this.handleChange}
+                    handleSearch={this.handleSearch}/><br/>
                     {bucketlist}
                 </div>
                 <AlertTexts />

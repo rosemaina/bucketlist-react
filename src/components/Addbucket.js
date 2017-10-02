@@ -10,9 +10,9 @@ const Addbucket = (props) => {
                 <TextField 
                     placeholder="Search"
                     name="Search"
-                    onClick={props.handleSearch}
+                    onChange={props.handleSearch}
                     />
-                    <button>Search</button><br/>
+                    {/* <button>Search</button><br/> */}
                 <Card >
                     <form onSubmit={props.newBucketlist}>
                         <TextField

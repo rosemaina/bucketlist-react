@@ -139,7 +139,7 @@ class Login extends Component {
                                     <br/><br/>
                                     <Link to={'/changepassword'}>
                                         forgot password?
-                                    </Link>
+                                    </Link><br />
                                 </form>
                             </CardText>
                         </div>

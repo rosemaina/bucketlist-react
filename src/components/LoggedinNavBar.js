@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 
 
-const Navbar = (props) => {
+const LoggedinNavBar = (props) => {
   
   return (
     <div className="Navbar">
@@ -14,11 +14,8 @@ const Navbar = (props) => {
       title={props.navBarTitle}
       iconElementRight={
         <div>
-          <Link to={'/login'}><FlatButton label="Login" /></Link>
-          <Link to={'/register'}><RaisedButton label="Sign up" primary /></Link>
-          {/* <RaisedButton label="Log Out" primary onClick={props.logout}/>
+          <RaisedButton label="Log Out" primary onClick={props.logout}/>
           <Link to={'/deleteuser'}><RaisedButton label="Delete" secondary /></Link>
-           */}
       </div>
       }
       
@@ -28,4 +25,4 @@ const Navbar = (props) => {
 }
 
 
-export default Navbar;
+export default LoggedinNavBar;
