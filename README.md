@@ -1,7 +1,9 @@
+[![Build Status](https://travis-ci.org/rosemaina/bucketlist-react.svg?branch=lilfeature)](https://travis-ci.org/rosemaina/bucketlist-react)
+
 # BUCKETLIST_API FRONT-END
 
 
-## Installation
+### Installation
 Clone the project<br>
 Run: `git clone https://github.com/rosemaina/bucketlist-react.git`<br>
 Then run: `nmp install`<br>
