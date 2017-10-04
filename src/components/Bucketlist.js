@@ -36,10 +36,7 @@ class Bucketlist extends Component {
             this.setState({
                 bucketlists: response.data.bucketlist
             })
-        }).catch((error)=>{
-            console.log(error)
-            
-        })
+        }).catch((error)=>{})
     }
 
 
@@ -124,7 +121,6 @@ class Bucketlist extends Component {
 
     // Method logs out a user 
     handleLogout =(event) =>{
-        console.log('Clicked')
         event.preventDefault()
         localStorage.removeItem('token');
         this.setState({
@@ -157,7 +153,7 @@ class Bucketlist extends Component {
         }
         return(
             
-            <div>
+            <div className='bucketlist'>
                 <LoggedinNavBar 
                 navBarTitle='BucketListy Adventure'
                 logout={this.handleLogout}/>

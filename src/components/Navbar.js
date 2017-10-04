@@ -5,10 +5,8 @@ import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 
 
-const Navbar = (props) => {
-  
-  return (
-    <div className="Navbar">
+const Navbar = (props) => (
+  <div className="Navbar">
     <AppBar
       showMenuIconButton={false}
       title={props.navBarTitle}
@@ -19,13 +17,11 @@ const Navbar = (props) => {
           {/* <RaisedButton label="Log Out" primary onClick={props.logout}/>
           <Link to={'/deleteuser'}><RaisedButton label="Delete" secondary /></Link>
            */}
-      </div>
+        </div>
       }
-      
     />
   </div>
-  )
-}
+);
 
 
 export default Navbar;

@@ -39,7 +39,7 @@ class Home extends Component {
               titleStyle={titleStyle}
                 title="Bucketlisty"
               />
-              <CardText titleStyle={titleStyle}>
+              <CardText style={titleStyle}>
               <h1>Live, travel, adventure, bless, and don’t be sorry!</h1><br />
               <h1>Once you have traveled, the voyage never ends, but is played out over and over again in the quiestest chambers. The mind can never break off from the journey.</h1>
               </CardText>

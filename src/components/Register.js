@@ -33,21 +33,16 @@ class Register extends Component {
         register = (event) => {
             //Prevents react reloading a page
             event.preventDefault()
-            if(this.state.email.length === 0 || this.state.password.length === 0){
-                this.setState({
-                    errorText: 'Both email and password are required',
-                    error: true
-                })
-            }else {
                 axios.post('http://127.0.0.1:5000/auth/register', {
                     email: this.state.email,
                     password: this.state.password
                 })
-                .then(() => this.setState({registration_success: true }))
+                .then(() => this.setState({registration_success: true }),
+                toast.success("You have registered successfully")
+                    )
                 .catch((error) => {
                     toast.error(error.response.data.error)
                 })
-                }
         }
     
 
@@ -88,7 +83,7 @@ class Register extends Component {
             );
         }
         return (
-            <div>
+            <div className='register'>
             <Navbar 
             navBarTitle="BucketListy Adventure"/>
             <Card>
@@ -101,6 +96,7 @@ class Register extends Component {
                         <CardText>
                             <form onSubmit={this.register}>
                                 <TextField
+                                id="email"
                                 name="email"
                                 onChange={this.handleChange}
                                 hintText="example@email.com"
@@ -111,6 +107,7 @@ class Register extends Component {
                                 />
                                 <br />
                                 <TextField
+                                id="password"
                                 name="password"
                                 onChange={this.handleChange}
                                 hintText="password"
@@ -120,7 +117,7 @@ class Register extends Component {
                                 type="password"
                                 />
                                 <br />
-                                <RaisedButton type="submit" label="Sign up" primary={true}/>
+                                <RaisedButton type="submit" id="register" label="Sign up" primary={true}/>
                             </form>
                         </CardText>
                         </div>
