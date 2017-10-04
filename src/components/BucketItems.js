@@ -106,7 +106,7 @@ class BucketItems extends Component {
         let items 
         items = this.state.items.map((item, index) => {
             return (
-                <div key={index}>
+                <div key={index} className='items'>
                     <List>
                         <Card style={style}>
                             <ListItem

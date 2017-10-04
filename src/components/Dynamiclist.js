@@ -128,7 +128,7 @@ class Dynamiclist extends Component {
           ];
 
         return(
-            <div>
+            <div className='dynamiclist'>
                 <List>
                     {/* This card displays the title,edit and delete button */}
                     <Card>

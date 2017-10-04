@@ -21,25 +21,30 @@ class Login extends Component {
             login_success: false,
             logout_success: false
         }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.login = this.login.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
     }
 
     // Method changes state for every instance of input
-    handleChange = (event) => {
+    handleChange(event){
         const name = event.target.name
         this.setState({[name]: event.target.value})
     }
 
     // Method login a user and gives them a token
-    login = (event) => {
+    login(event){
         event.preventDefault()
         axios.post('http://127.0.0.1:5000/auth/login', {
             email: this.state.email,
             password: this.state.password
-          }).then(resp => {
-              console.log(resp)
-              localStorage.setItem('token', resp.data['token']);
           })
-          .then((resp) => this.setState({login_success: true }))
+          .then(resp => {
+              localStorage.setItem('token', resp.data['token']);
+              this.setState({login_success: true });
+              toast.success("You have logged in successfully");
+          })
           .catch((error) => {
             toast.error(error.response.data.error)
              
@@ -47,8 +52,7 @@ class Login extends Component {
     }
 
     // Methods logs out a user
-    handleLogout =(event) =>{
-        console.log('Clicked')
+    handleLogout(event){
         event.preventDefault()
         localStorage.removeItem('token');
         this.setState({
@@ -95,11 +99,11 @@ class Login extends Component {
 
         if (this.state.logout_success) {
             return(
-                <Redirect to='/login' />
+                <Redirect to="/login" />
             );
         }
         return (
-            <div>
+            <div className='login'>
                 
             <Navbar 
             navBarTitle="BucketListy Adventure"
@@ -116,7 +120,8 @@ class Login extends Component {
                             title="Login here"/>
                             <CardText>
                                 <form onSubmit={this.login}>
-                                    <TextField 
+                                    <TextField
+                                        id="email"
                                         name="email"
                                         hintText="example@email.com"
                                         hintStyle={styles.hintColor}
@@ -127,6 +132,7 @@ class Login extends Component {
                                     /><br />
 
                                     <TextField
+                                        id="password"
                                         name="password"
                                         hintText="password"
                                         hintStyle={styles.hintColor}
@@ -135,7 +141,9 @@ class Login extends Component {
                                         type="password"
                                         onChange = {this.handleChange}
                                     /><br />
-                                    <RaisedButton type="submit" label="login" primary={true}/>
+                                    <RaisedButton
+                                    id="submitButton"
+                                    type="submit" label="login" primary={true}/>
                                     <br/><br/>
                                     <Link to={'/changepassword'}>
                                         forgot password?

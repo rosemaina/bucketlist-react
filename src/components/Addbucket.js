@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 
 const Addbucket = (props) => {
         return(
-            <div>
+            <div className="addBucket">
                 <TextField 
                     placeholder="Search"
                     name="Search"
