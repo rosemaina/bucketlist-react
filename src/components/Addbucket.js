@@ -1,68 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {Card} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
-// import Navbar from './Navbar';
 
-const axios = require('axios')
-
-class Addbucket extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            title: ''
-            
-        };
-      }
-    
-    // This syntax ensures `this` is bound within handleClick.
-    // this.handleChange = this.handleChange.bind(this);
-    handleChange = (event) => {
-        // Event is the sort of the action 
-        //   const name = event.target.name
-          const value = event.target.value
-          this.setState({title: value});
-      };
-
-    Bucketlist = (event) => {
-        // Calling preventDefault explicitly to help prevent default behavior in React
-        event.preventDefault()
-        axios.post('http://127.0.0.1:5000/bucketlist/', {
-            title: this.state.title
-        }, {
-            headers: {
-                "Authorization": localStorage.getItem('token'),
-                "content-Type":'application/json'
-            }
-        }).then((response) => {
-          this.props.newBucketlist(response.data)
-          this.setState({
-              title: ''
-          }) 
-        })
-          .catch((error) => {
-            console.log(error)
-          })
-        }
-
-    render(){
+const Addbucket = (props) => {
         return(
             <div>
+                <TextField 
+                    placeholder="Search"
+                    name="Search"
+                    onChange={props.handleSearch}
+                    />
+                    {/* <button>Search</button><br/> */}
                 <Card >
-                    <form onSubmit={this.Bucketlist}>
+                    <form onSubmit={props.newBucketlist}>
                         <TextField
+                            placeholder="Name your bucketlist"
                             name="title"
-                            hintText="Name your bucket!"
-                            onChange={this.handleChange}
-                            floatingLabelFixed={true}
-                            value={this.state.title}
+                            onChange={props.handleChange}
+                            floatingLabelFixed
+                            value={props.title}
                         />
-                        <FlatButton type="submit" label="Create" primary={true} />
+                        <FlatButton label= "Create" primary type="submit" />
                     </form>
                 </Card>
             </div>
         );
-    }
-}
+    };
+
 export default Addbucket;

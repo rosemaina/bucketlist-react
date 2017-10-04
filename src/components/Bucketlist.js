@@ -1,42 +1,61 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar';
+import LoggedinNavBar from './LoggedinNavBar';
 import Addbucket from './Addbucket';
 import Dynamiclist from './Dynamiclist'
+import { Redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import AlertTexts from './AlertTexts';
+
 
 const axios = require('axios')
+const BASE_URL = 'http://127.0.0.1:5000'
+
 
 class Bucketlist extends Component {
     constructor(props) {
         super(props);
         this.state = {
             bucketlists: [],
-            // bucketname: ''  
-        }
-        this.handleNewBucketlist = this.handleNewBucketlist.bind(this)
-        this.getBucketlist = this.getBucketlist.bind(this)        
-        
+            title:'',
+            logout_success: false,
+            textSearch: '',
+        };
       }
 
+    handleChange = (event) => {
+        this.setState({
+            // Value of input box which has this value
+            title: event.target.value
+        })
+    }
+
     getBucketlist(){
-        axios.get('http://127.0.0.1:5000/bucketlist/',{
+        axios.get(BASE_URL + '/bucketlist/',{
             headers: {"Authorization": localStorage.getItem('token')}
         }).then((response) => {
-            console.log(response.data.bucketlist)
             this.setState({
                 bucketlists: response.data.bucketlist
             })
         }).catch((error)=>{
             console.log(error)
+            
         })
     }
 
-    // handelUpdateBucketlist(bucket){
-    //     let oldBucketlists = this.state.bucket
-    //     currentBucketlists.push(bucket.id.index)
-    //     this.setState({
-    //         bucketlists: currentBucketlists
-    //     })
-    // }
+
+    handleSearch = (event) => {
+        axios.get(BASE_URL + '/bucketlist'+'?q='+ event.target.value,
+        {headers: {
+            "Authorization": localStorage.getItem('token'),
+            "content-Type":'application/json'
+        }
+        }).then(response => {
+            this.setState({
+            bucketlists :response.data.bucketlist
+        })
+        console.log('buckets', response.data.bucketlist)        
+    })
+    }
 
     handleNewBucketlist(bucketlist){
         let currentBucketlists = this.state.bucketlists
@@ -46,24 +65,71 @@ class Bucketlist extends Component {
         })
     }
 
-    // edit(id){
-    //     axios.put(`http://127.0.0.1:5000/bucketlist/${id}/`,
-    //     {title: this.state.bucketname},
-    //       {
-    //           headers: {"Authorization": localStorage.getItem('token')}
-    //       }).then((response) => {
-    //           this.setState((prevState) => {
-    //               return {
-    //                   bucketlists: Object.assign([], prevState, this.state.bucketname)
-    //               }
-    //           })
-    //       }).catch((error) => {
-    //           console.log(error)
-    //       })
-    // }
+    handleAddBucketlist = (event) =>{
+        event.preventDefault()
+        axios.post(BASE_URL + '/bucketlist/', {
+            title: this.state.title
+        }, {
+            headers: {
+                "Authorization": localStorage.getItem('token'),
+                "content-Type":'application/json'
+            }
+            // Sets the input text field to empty onSubmit
+        }).then((response) => {
+          this.setState({
+              title: ''
+          })
+          this.getBucketlist()          
+        })
+          .catch((error) => {
+            toast.error(error.response.data.error)
+          })
+
+    }
+
+    // Method edits a bucketlist title
+    handleUpdateBucketlist = (id)=> {
+        axios.put(BASE_URL + `/bucketlist/${id}/`,
+        {title: this.state.title},
+        {
+            headers: {"Authorization": localStorage.getItem('token')}
+        })
+        .then((response) => {
+            this.getBucketlist()
+        })
+        .catch((error) => {
+            toast.error(error.response.data.error)
+        })
+    }
+
+    // Method deletes a bucketlist object using its id
+    handleDeleteBucketlist = (id) => {
+        axios.delete(BASE_URL + `/bucketlist/${id}/`,
+        {
+            headers: {"Authorization": localStorage.getItem('token')}
+        })
+        .then((response) => {
+            toast.success(response.data.message)
+            this.getBucketlist();
+            
+        })
+        .catch((error) => {
+            toast.error(error.response.data.error)
+        })
+        }
 
     componentWillMount(){
         this.getBucketlist()
+    }
+
+    // Method logs out a user 
+    handleLogout =(event) =>{
+        console.log('Clicked')
+        event.preventDefault()
+        localStorage.removeItem('token');
+        this.setState({
+            logout_success: true
+        })
     }
 
     render(){
@@ -73,24 +139,47 @@ class Bucketlist extends Component {
             height: "auto",
             textAlign: "center"
         }
-        // console.log(this.state.bucketlists)
         let bucketlist = this.state.bucketlists.map((bucket, index) => {
-            {/* <p>{bucketlist.title}</p> */}
             return (
-                <Dynamiclist key={index} bucketobj={bucket} getBucketlist={this.getBucketlist}/>
+                <Dynamiclist 
+                key={index} 
+                bucketobj={bucket} 
+                handleDeleteBucketlist={this.handleDeleteBucketlist} 
+                handleUpdateBucketlist={this.handleUpdateBucketlist} 
+                handleChange={this.handleChange}/>
             );
         })
+
+        if (this.state.logout_success) {
+            return(
+                <Redirect to='/login' />
+            );
+        }
         return(
+            
             <div>
-                <Navbar 
-                navBarTitle='Ace Bruuh'/>
+                <LoggedinNavBar 
+                navBarTitle='BucketListy Adventure'
+                logout={this.handleLogout}/>
                 <div style = {style}>
-                    <Addbucket newBucketlist={this.handleNewBucketlist} /><br/>
+                    <Addbucket
+                    title={this.state.title}
+                    newBucketlist={this.handleAddBucketlist} 
+                    handleChange={this.handleChange}
+                    handleSearch={this.handleSearch}/><br/>
                     {bucketlist}
                 </div>
-                {}
+                <AlertTexts />
             </div>
         );
     }
 }
+
 export default Bucketlist;
+
+
+
+
+
+    
+

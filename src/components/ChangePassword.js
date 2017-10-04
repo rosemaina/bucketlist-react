@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardTitle, CardText, CardMedia} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import AlertTexts from './AlertTexts';
 
@@ -12,53 +12,47 @@ import Navbar from './Navbar';
 const axios = require('axios')
 
 
-class Login extends Component {
+class ChangePassword extends Component {
     constructor(props){
         super(props);
         this.state={
             email:'',
             password:'',
+            confirm_password: '',
             login_success: false,
-            logout_success: false
+            change_password_success: false,
         }
     }
 
-    // Method changes state for every instance of input
     handleChange = (event) => {
         const name = event.target.name
         this.setState({[name]: event.target.value})
     }
 
-    // Method login a user and gives them a token
-    login = (event) => {
+    // Method changes a user's password
+    handleChangePassword = (event) => {
         event.preventDefault()
-        axios.post('http://127.0.0.1:5000/auth/login', {
-            email: this.state.email,
-            password: this.state.password
-          }).then(resp => {
-              console.log(resp)
-              localStorage.setItem('token', resp.data['token']);
-          })
-          .then((resp) => this.setState({login_success: true }))
-          .catch((error) => {
-            toast.error(error.response.data.error)
-             
-          })
-    }
+        if (this.state.password === this.state.confirm_password) {
+            axios.post('http://127.0.0.1:5000/auth/reset_password', {
+                email: this.state.email,
+                password: this.state.password,
+                confirm_password: this.state.confirm_password,
+            })
+              .then((response) => this.setState({change_password_success: true}))
 
-    // Methods logs out a user
-    handleLogout =(event) =>{
-        console.log('Clicked')
-        event.preventDefault()
-        localStorage.removeItem('token');
-        this.setState({
-            logout_success: true
-        })
+              .catch((error) => {
+                console.log(error)
+                toast.error(error.data.error);
+            })
+        } else{ 
+            //alert(error)
+            toast.error("Passwords do not match");
+        }
     }
 
     render() {
         const style = {
-            margin: "auto", 
+            margin: "auto",
             width: "50%",
             height: "auto",
             textAlign: 'center',
@@ -75,34 +69,23 @@ class Login extends Component {
         const titleStyle ={
             color: "rgba(255, 255, 255, 0.87)",
         }
-
         const styles={
-            hintColor: {
-                color: "rgba(255, 255, 255, 0.87)",
-              },
             floatingLabelStyle: {
                 color: "rgba(255, 255, 255, 0.87)",
             },
         }
 
-
-        // Redirections Conditions
-        if (this.state.login_success) {
-            return(
-                <Redirect to='/bucketlist' />
-            );
-        }
-
-        if (this.state.logout_success) {
+        if (this.state.change_password_success) {
             return(
                 <Redirect to='/login' />
             );
         }
+
         return (
             <div>
-                
+           
             <Navbar 
-            navBarTitle="BucketListy Adventure"
+            navBarTitle="BucketListly Adventure"
             />
             <Card >
                 <CardMedia
@@ -110,16 +93,11 @@ class Login extends Component {
                         <div style={style}>
                             <CardTitle 
                             titleStyle={titleStyle}
-                            title="Explore the adventure calling" />
-                            <CardTitle 
-                            titleStyle={titleStyle}
-                            title="Login here"/>
+                            title="Change Your Password"/>
                             <CardText>
                                 <form onSubmit={this.login}>
                                     <TextField 
                                         name="email"
-                                        hintText="example@email.com"
-                                        hintStyle={styles.hintColor}
                                         floatingLabelText="Email"
                                         floatingLabelStyle={styles.floatingLabelStyle}
                                         type="email"
@@ -128,25 +106,31 @@ class Login extends Component {
 
                                     <TextField
                                         name="password"
-                                        hintText="password"
-                                        hintStyle={styles.hintColor}
                                         floatingLabelText="Password"
                                         floatingLabelStyle={styles.floatingLabelStyle}
                                         type="password"
                                         onChange = {this.handleChange}
                                     /><br />
-                                    <RaisedButton type="submit" label="login" primary={true}/>
-                                    <br/><br/>
-                                    <Link to={'/changepassword'}>
-                                        forgot password?
-                                    </Link><br />
+                                    <TextField
+                                        name="confirm_password"
+                                        floatingLabelText="Confirm password"
+                                        floatingLabelStyle={styles.floatingLabelStyle}
+                                        type="password"
+                                        onChange = {this.handleChange}
+                                    /><br />
+                                    <RaisedButton 
+                                        type="submit" 
+                                        label="Change Password" 
+                                        primary={true}
+                                        onClick={this.handleChangePassword}
+                                    />
                                 </form>
                             </CardText>
                         </div>
                     }
                     overlayContentStyle={overlayContentStyle}
                     >
-                    <img src="static/clouds.jpg" alt=""/>
+                    <img src="static/hurray.jpg" alt=""/>
                 </CardMedia>
             </Card>
             <AlertTexts />
@@ -155,4 +139,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default ChangePassword;
