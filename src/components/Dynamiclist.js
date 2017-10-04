@@ -40,18 +40,14 @@ class Dynamiclist extends Component {
 
     // This method gets a bucketlist's items using its id
       getBucketItem = (id) => {
-        //   console.log('id', id)
           axios.get(BASE_URL + '/bucketlist/'+ id + '/item/', {
               headers: {"Authorization": localStorage.getItem('token')}
           }).then((response) => {
             //   Sets the state inclusive of that item
-            // console.log('items', response.data)
               this.setState({
                   items: response.data.item
               })
-          }).catch((error)=>{
-              console.log(error)
-          })
+          }).catch((error)=>{ })
       }
 
     //   OPENS DIALOG FOR VIEWING BUCKETLIST TITLE AND ITS'S ITEMS USING ITS ID ie CARD_ID
@@ -111,7 +107,6 @@ class Dynamiclist extends Component {
     handleNewItem(item){
         let currentItems = this.state.items
         currentItems.push(item)
-        console.log(item)
         this.setState({
             items: currentItems
         })
@@ -140,7 +135,8 @@ class Dynamiclist extends Component {
                         </Link>
 
                         <CardActions>
-                            <FlatButton 
+                            <FlatButton
+                                id="edit"
                                 label="Edit" 
                                 primary={true}
                                 onClick={this.handleOpenEdit}
