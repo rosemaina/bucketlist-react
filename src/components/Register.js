@@ -38,7 +38,7 @@ class Register extends Component {
                     password: this.state.password
                 })
                 .then(() => this.setState({registration_success: true }),
-                toast.success("You have registered successfully")
+                    toast.success("You have registered successfully")
                     )
                 .catch((error) => {
                     toast.error(error.response.data.error)
@@ -127,7 +127,9 @@ class Register extends Component {
                         <img src="static/clouds.jpg" alt=""/>
                 </CardMedia>
             </Card>
+            <AlertTexts />
             </div>
+            
         );
       }
     }

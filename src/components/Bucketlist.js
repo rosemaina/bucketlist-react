@@ -4,6 +4,8 @@ import Addbucket from './Addbucket';
 import Dynamiclist from './Dynamiclist'
 import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import FlatButton from 'material-ui/FlatButton';
+
 import AlertTexts from './AlertTexts';
 
 
@@ -19,6 +21,8 @@ class Bucketlist extends Component {
             title:'',
             logout_success: false,
             textSearch: '',
+            next_page: '',
+            prev_page: ''
         };
       }
 
@@ -34,15 +38,46 @@ class Bucketlist extends Component {
             headers: {"Authorization": localStorage.getItem('token')}
         }).then((response) => {
             this.setState({
-                bucketlists: response.data.bucketlist
+                bucketlists: response.data.bucketlist,
+                next_page :response.data.next_page,
+                prev_page :response.data.prev_page,
+            })
+        }).catch((error)=>{})
+    }
+
+    handleNextPage(){
+        axios.get(BASE_URL + this.state.next_page,
+            {
+            headers: {"Authorization": localStorage.getItem('token')
+        }
+        }).then((response) => {
+            this.setState({
+                bucketlists: response.data.bucketlist,
+                next_page :response.data.next_page,
+                prev_page :response.data.prev_page,
+            })
+        }).catch((error)=>{})
+    }
+
+    handlePrevPage(){
+        axios.get(BASE_URL + this.state.prev_page,
+            {
+            headers: {"Authorization": localStorage.getItem('token')
+        }
+        }).then((response) => {
+            this.setState({
+                bucketlists: response.data.bucketlist,
+                next_page :response.data.next_page,
+                prev_page :response.data.prev_page,
             })
         }).catch((error)=>{})
     }
 
 
-    handleSearch = (event) => {
+    handleSearch  (event) {
         axios.get(BASE_URL + '/bucketlist'+'?q='+ event.target.value,
-        {headers: {
+        {
+            headers: {
             "Authorization": localStorage.getItem('token'),
             "content-Type":'application/json'
         }
@@ -50,7 +85,6 @@ class Bucketlist extends Component {
             this.setState({
             bucketlists :response.data.bucketlist
         })
-        console.log('buckets', response.data.bucketlist)        
     })
     }
 
@@ -166,6 +200,22 @@ class Bucketlist extends Component {
                     {bucketlist}
                 </div>
                 <AlertTexts />
+                <div style={{
+                     display:"flex",
+                     justifyContent: "center",
+                     alignItems: "center"}}>
+                    
+                <FlatButton 
+                type="submit"
+                label="prev"
+                onClick={(event => this.handlePrevPage())}
+                />
+                <FlatButton 
+                type="submit"
+                label="next"
+                onClick={(event => this.handleNextPage())}
+                />
+                </div>
             </div>
         );
     }

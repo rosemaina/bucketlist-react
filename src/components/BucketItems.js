@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import {Card, CardActions} from 'material-ui/Card';
 import Dialog from 'material-ui/Dialog';
 import {List, ListItem} from 'material-ui/List';
@@ -21,9 +22,11 @@ class BucketItems extends Component {
             items:[],
             open : false,
             itemId: '',
-            itemName: ''
-            
+            itemName: '',
+            searchText: '',
+            logout_success: false
         };
+        this.handleUpdateBucketItem = this.handleUpdateBucketItem.bind(this)
       }
       
       // OPENS DIALOG FOR VIEWING BUCKETLIST TITLE AND ITS'S ITEMS USING ITS ID ie CARD_ID
@@ -50,14 +53,11 @@ class BucketItems extends Component {
                 this.setState({
                     items: response.data.item
                 })
-           }).catch((error)=>{
-               console.log(error)
-            })
+           }).catch((error)=>{})
         }
 
         // This method deletes a bucketlist item
         handleDeleteBucketItem = (event, bucket_id, id) => {
-            console.log("this is an id  ", bucket_id)
             axios.delete(BASE_URL + `/bucketlist/${bucket_id}/item/${id}/`,
             {
                 headers: {"Authorization": localStorage.getItem('token')}
@@ -67,7 +67,7 @@ class BucketItems extends Component {
             }
 
             // This method updates a bucketlist item
-            handleUpdateBucketItem = (event, bucket_id) =>{
+            handleUpdateBucketItem(event, bucket_id){
                 axios.put(BASE_URL + `/bucketlist/${bucket_id}/item/${this.state.itemId}/`,
                 {name: this.state.itemName},
                 {
@@ -80,10 +80,32 @@ class BucketItems extends Component {
                     })
 
                 }
+
+                handleSearchItem = (searchText) => {
+                    axios.get(BASE_URL + `/bucketlist/${this.props.match.params.id}/item?q=`+searchText,
+                        {headers: {
+                            "Authorization": localStorage.getItem('token'),
+                            "content-Type":'application/json'
+                        }
+                        }).then(response => {
+                            this.setState({
+                            items :response.data.item
+                        })      
+                })
+                }
             
             // Gets all the bucketlist items before the page renders
             componentWillMount(){
                 this.handleGetBucketItems(this.props.match.params.id);
+            }
+
+            // Method logs out a user 
+            handleLogout =(event) =>{
+                event.preventDefault()
+                localStorage.removeItem('token');
+                this.setState({
+                    logout_success: true
+                })
             }
 
     // DISPLAYS 
@@ -103,45 +125,57 @@ class BucketItems extends Component {
             textAlign: "center"
         }
 
-        let items 
-        items = this.state.items.map((item, index) => {
-            return (
-                <div key={index} className='items'>
-                    <List>
-                        <Card style={style}>
-                            <ListItem
-                                primaryText={item.name}
-                            />
-                            <CardActions>
-                                <FlatButton 
-                                    label="Edit" 
-                                    primary={true}
-                                    onClick={(event) => this.handleOpen(event, item.id)}
-                                />
-
-                                <FlatButton 
-                                    label="Delete" 
-                                    secondary={true}
-                                    onClick={(event) => this.handleDeleteBucketItem(
-                                        event, 
-                                        this.props.match.params.id, 
-                                        item.id)}
-                                />
-                            </CardActions>
-                        </Card>
-                    </List>
-               
-                </div>
+        if (this.state.logout_success) {
+            return(
+                <Redirect to='/login' />
             );
-        });
+        }
 
+
+        let items 
+        if (this.state.items.length > 0) {
+            items = this.state.items.map((item, index) => {
+                return (
+                    <div key={index} className='items'>
+                            <Card>
+                                <ListItem
+                                    primaryText={item.name}
+                                />
+                                <CardActions>
+                                    <FlatButton 
+                                        label="Edit" 
+                                        primary={true}
+                                        onClick={(event) => this.handleOpen(event, item.id)}
+                                    />
+
+                                    <FlatButton 
+                                        label="Delete" 
+                                        secondary={true}
+                                        onClick={(event) => this.handleDeleteBucketItem(
+                                            event, 
+                                            this.props.match.params.id, 
+                                            item.id)}
+                                    />
+                                </CardActions>
+                            </Card><br />
+                
+                    </div>
+                );
+            });
+        }
         return(
             <div>
                 <LoggedinNavBar
                     navBarTitle="Bucketlisty Adventure"
+                    logout={this.handleLogout}
                 />
 
-                <List>
+                <List style={style}>
+                <TextField
+                    type="text"
+                    hintText="Search an item"
+                    onChange={(event) => this.handleSearchItem(event.target.value)}
+                /><br />
                     {items}
                 </List> 
                 {/* DIALOG FOR ADDING A BUCKETLIST ITEM */}

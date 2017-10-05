@@ -42,7 +42,7 @@ class Login extends Component {
           })
           .then(resp => {
               localStorage.setItem('token', resp.data['token']);
-              this.setState({login_success: true });
+              this.setState({login_success: true});
               toast.success("You have logged in successfully");
           })
           .catch((error) => {
