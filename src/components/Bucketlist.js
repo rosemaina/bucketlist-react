@@ -5,6 +5,8 @@ import Dynamiclist from './Dynamiclist'
 import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
+
 
 import AlertTexts from './AlertTexts';
 
@@ -24,9 +26,24 @@ class Bucketlist extends Component {
             next_page: '',
             prev_page: ''
         };
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleNewBucketlist = this.handleNewBucketlist.bind(this);
+        this.getBucketlist = this.getBucketlist.bind(this);
+        this.handleNextPage = this.handleNextPage.bind(this);
+        this.handlePrevPage = this.handlePrevPage.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleAddBucketlist = this.handleAddBucketlist.bind(this);
+        this.handleUpdateBucketlist = this.handleUpdateBucketlist.bind(this);
+        this.handleDeleteBucketlist = this.handleDeleteBucketlist.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
       }
 
-    handleChange = (event) => {
+      componentWillMount(){
+        this.getBucketlist()
+    }
+
+
+    handleChange(event){
         this.setState({
             // Value of input box which has this value
             title: event.target.value
@@ -74,14 +91,14 @@ class Bucketlist extends Component {
     }
 
 
-    handleSearch  (event) {
+    handleSearch(event) {
         axios.get(BASE_URL + '/bucketlist'+'?q='+ event.target.value,
         {
             headers: {
             "Authorization": localStorage.getItem('token'),
             "content-Type":'application/json'
-        }
-        }).then(response => {
+        }}
+        ).then(response => {
             this.setState({
             bucketlists :response.data.bucketlist
         })
@@ -96,7 +113,7 @@ class Bucketlist extends Component {
         })
     }
 
-    handleAddBucketlist = (event) =>{
+    handleAddBucketlist(event){
         event.preventDefault()
         axios.post(BASE_URL + '/bucketlist/', {
             title: this.state.title
@@ -119,7 +136,7 @@ class Bucketlist extends Component {
     }
 
     // Method edits a bucketlist title
-    handleUpdateBucketlist = (id)=> {
+    handleUpdateBucketlist(id){
         axios.put(BASE_URL + `/bucketlist/${id}/`,
         {title: this.state.title},
         {
@@ -134,7 +151,7 @@ class Bucketlist extends Component {
     }
 
     // Method deletes a bucketlist object using its id
-    handleDeleteBucketlist = (id) => {
+    handleDeleteBucketlist(id){
         axios.delete(BASE_URL + `/bucketlist/${id}/`,
         {
             headers: {"Authorization": localStorage.getItem('token')}
@@ -149,12 +166,9 @@ class Bucketlist extends Component {
         })
         }
 
-    componentWillMount(){
-        this.getBucketlist()
-    }
-
-    // Method logs out a user 
-    handleLogout =(event) =>{
+    
+    // Method logs out a user gf
+    handleLogout(event){
         event.preventDefault()
         localStorage.removeItem('token');
         this.setState({
@@ -191,12 +205,20 @@ class Bucketlist extends Component {
                 <LoggedinNavBar 
                 navBarTitle='BucketListy Adventure'
                 logout={this.handleLogout}/>
+
+            
                 <div style = {style}>
+                    {/* SEARCH TEXT FIELD  */}
+                    <TextField 
+                    placeholder="Search"
+                    name="Search"
+                    onChange={this.handleSearch}
+                    />
+
                     <Addbucket
                     title={this.state.title}
                     newBucketlist={this.handleAddBucketlist} 
-                    handleChange={this.handleChange}
-                    handleSearch={this.handleSearch}/><br/>
+                    handleChange={this.handleChange} />
                     {bucketlist}
                 </div>
                 <AlertTexts />
