@@ -50,26 +50,11 @@ describe('Dynamiclist Page', () => {
     expect(wrapper.instance().state.name).to.be.equal('');
   });
 
-  // it.only('adds a bucketlist item', () =>{
+  // it('adds a bucketlist item', () =>{
   //   wrapper.setState({items: []});
   //   wrapper.instance().handleNewItem(item);
   //   expect(wrapper.instance().state.items).to.be.equal([item]);
     
-  // });
-
-  // it('check edit button works', () => {
-  //   const buttonEdit = wrapper.find('#edit');
-  //   expect(buttonEdit.length).to.equal(1);
-
-  //   const target = {
-  //     value: 'bucketlist',
-  //     title: 'title',
-  //   };
-
-  //   buttonEdit.simulate('click', { target });
-  //   wrapper.update();
-  //   console.log('#######', wrapper)
-  //   expect(wrapper.state()).to.equal(target);
   // });
 
   // it('gets bucketlist item', () =>{
@@ -79,6 +64,21 @@ describe('Dynamiclist Page', () => {
   //   wrapper.setState({name : ''});
   //   expect(wrapper.instance().state.name).to.be.equal('');
   // });
+
+  it('shows name has been entered', () => {
+    wrapper.setState({name: ''})
+    wrapper.instance().handleOpen(event);
+    expect(wrapper.instance().state.name).to.equal('');
+
+    // const target = {
+    //   name: 'bucketlist',
+    // };
+
+    // target.simulate('change', { target });
+    // wrapper.update();
+    // expect(wrapper.state().email).to.equal(target.value);
+  });
+
 
 
   it('open main modal for showing bucketlist items ', () =>{

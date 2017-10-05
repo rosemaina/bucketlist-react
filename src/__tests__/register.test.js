@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import Register from '../components/register';
+import Register from '../components/Register';
 import { mountWithContext } from '../utils/test-utils';
 
 

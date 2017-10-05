@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import moxios from 'moxios';
-import {spy, sinon} from 'sinon';
+import  sinon from 'sinon';
 import { shallowWithContext, mountWithContext } from '../utils/test-utils';
 
 import Bucketlist from '../components/Bucketlist';
@@ -46,7 +46,7 @@ describe('Bucketlist Page', () => {
     expect(wrapper.instance().state.title).to.be.equal('bucketlist one');
   });
 
-  it('handling a new a bucketlist', () =>{
+  it('handling a updating a bucketlist', () =>{
     wrapper.setState({title : 'bucketlist one'});
     wrapper.instance().handleUpdateBucketlist(event);
     expect(wrapper.instance().state.title).to.be.equal('bucketlist one');
@@ -57,5 +57,26 @@ describe('Bucketlist Page', () => {
     wrapper.instance().handleLogout(event);
     expect(wrapper.instance().state.logout_success).to.be.equal(true);
   });
+
+  it('finds next page', () =>{
+    sinon.spy(Bucketlist.prototype, 'handleNextPage');
+    const wrapper = mountWithContext(<Bucketlist />);
+    wrapper.instance().handleNextPage();
+    expect(Bucketlist.prototype.handleNextPage.called).to.be.equal(true);
+  });
+
+
+  it('finds prev page', () =>{
+    sinon.spy(Bucketlist.prototype, 'handlePrevPage');
+    const wrapper = mountWithContext(<Bucketlist />);
+    wrapper.instance().handlePrevPage();
+    expect(Bucketlist.prototype.handlePrevPage.called).to.be.equal(true);
+  });
   
+  it('finds handleSearch page is called', () =>{
+    sinon.spy(Bucketlist.prototype, 'handleSearch');
+    const wrapper = mountWithContext(<Bucketlist />);
+    wrapper.instance().handleSearch({target: {value: ''}});
+    expect(Bucketlist.prototype.handleSearch.called).to.be.equal(true);
+  });
 });

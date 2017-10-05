@@ -24,7 +24,7 @@ describe('Addbucket Page', () => {
     moxios.uninstall();
   });
 
-  it.only('has div with correct class', () => {
+  it('has div with correct class', () => {
     expect(wrapper.find('.addBucket').length).to.equal(1);
   });
 });

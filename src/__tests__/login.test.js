@@ -1,4 +1,7 @@
 import React from 'react';
+import moxios from 'moxios';
+import  sinon from 'sinon';
+
 import { mountWithContext, shallowWithContext } from '../utils/test-utils';
 
 import Login from '../components/Login';
@@ -10,32 +13,46 @@ describe('Login Page', () => {
   let loginWrapper;
 
   beforeEach(() => {
+    moxios.install();
     loginWrapper = mountWithContext(<Login />);
   });
 
+  afterEach(() => {
+    // import and pass your custom axios instance to this method
+    moxios.uninstall();
+  })
+
   it('has div with correct class', () => {
-    expect(loginWrapper.find('.login').length).to.equal(1);
+    expect(loginWrapper.find('.login').length).toEqual(1);
   });
 
 
   it('shows email has been entered', () => {
     const inputEmail = loginWrapper.find('#email');
-    expect(inputEmail.length).to.equal(1);
+    expect(inputEmail.length).toEqual(1);
 
     const target = {
       value: 'exapmle@email.com',
       name: 'email',
     };
 
+
+    it('finds prev page', () =>{
+      sinon.spy(Login.prototype, 'login');
+      const wrapper = mountWithContext(<Login />);
+      wrapper.instance().login();
+      expect(Login.prototype.login.called).toEqual(true);
+    });
+
     inputEmail.simulate('change', { target });
     loginWrapper.update();
-    expect(loginWrapper.state().email).to.equal(target.value);
+    expect(loginWrapper.state().email).toEqual(target.value);
   });
 
 
   it('shows password has been entered', () => {
     const inputPassword = loginWrapper.find('#password');
-    expect(inputPassword.length).to.equal(1);
+    expect(inputPassword.length).toEqual(1);
 
     const target = {
       value: '',
@@ -44,16 +61,22 @@ describe('Login Page', () => {
 
     inputPassword.simulate('change', { target });
     loginWrapper.update();
-    expect(loginWrapper.state().password).to.equal(target.value);
+    expect(loginWrapper.state().password).toEqual(target.value);
   });
 
 
-  it.only('shows that user can login', () => {
+  it('shows that user can login', () => {
     const wrapper = mountWithContext(<Login />);
     wrapper.setState({login_success: false});
     expect(wrapper.find('.login').exists()).toBe(true);
     expect(wrapper.find('div.login').length).toEqual(1);
   });
 
+
+  it('log out a user', () =>{
+    loginWrapper.setState({logout_success: false});
+    loginWrapper.instance().handleLogout({preventDefault: () => {}});
+    expect(loginWrapper.instance().state.logout_success).toEqual(true);
+  });
 
 });
