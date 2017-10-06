@@ -6,13 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 
 const Addbucket = (props) => {
         return(
-            <div>
-                <TextField 
-                    placeholder="Search"
-                    name="Search"
-                    onChange={props.handleSearch}
-                    />
-                    {/* <button>Search</button><br/> */}
+            <div className="addBucket">
                 <Card >
                     <form onSubmit={props.newBucketlist}>
                         <TextField

@@ -2,13 +2,12 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 
 
-const Navbar = (props) => {
-  
-  return (
-    <div className="Navbar">
+const Navbar = (props) => (
+  <div className="Navbar">
     <AppBar
       showMenuIconButton={false}
       title={props.navBarTitle}
@@ -16,16 +15,15 @@ const Navbar = (props) => {
         <div>
           <Link to={'/login'}><FlatButton label="Login" /></Link>
           <Link to={'/register'}><RaisedButton label="Sign up" primary /></Link>
-          {/* <RaisedButton label="Log Out" primary onClick={props.logout}/>
-          <Link to={'/deleteuser'}><RaisedButton label="Delete" secondary /></Link>
-           */}
-      </div>
+        </div>
       }
-      
     />
   </div>
-  )
-}
+);
 
+// Type checking PropTypes (Validation)
+Navbar.propTypes = {
+  navBarTitle: PropTypes.string
+};
 
 export default Navbar;

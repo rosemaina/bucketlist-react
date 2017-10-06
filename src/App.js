@@ -10,7 +10,6 @@ import Register from './components/Register';
 import Bucketlist from './components/Bucketlist';
 import ChangePassword from './components/ChangePassword';
 import BucketItems from './components/BucketItems';
-import DeleteUser from './components/DeleteUser';
 
 
 // injectTapEventPlugin();
@@ -29,7 +28,6 @@ class App extends Component {
           <Route exact path="/bucketlist" component={Bucketlist}/>
           <Route exact path="/bucketlist/:id/item" component={BucketItems}/>
           <Route exact path="/changepassword" component={ChangePassword}/>
-          <Route exact path="/deleteuser" component={DeleteUser}/>
           </div>
         </Router>
       </MuiThemeProvider>

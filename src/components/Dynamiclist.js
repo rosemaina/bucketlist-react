@@ -6,10 +6,9 @@ import FlatButton from 'material-ui/FlatButton';
 import ActionInfo from 'material-ui/svg-icons/action/info';
 import TextField from 'material-ui/TextField';
 import { toast } from 'react-toastify';
-import AlertTexts from './AlertTexts';
 import {Link} from 'react-router-dom';
 
-
+import AlertTexts from './AlertTexts';
 import BucketItems from './BucketItems';
 
 
@@ -31,55 +30,50 @@ class Dynamiclist extends Component {
       }
 
     //   Method changes state for every instance of input
-      handleChange = (event) => {
-          this.setState({
-            // Value of input box which has this value
-            name: event.target.value
-        })
-    }
+    handleChange = (event) => {
+        this.setState({
+        // Value of input box which has this value
+        name: event.target.value
+    })
+}
 
     // This method gets a bucketlist's items using its id
-      getBucketItem = (id) => {
-        //   console.log('id', id)
-          axios.get(BASE_URL + '/bucketlist/'+ id + '/item/', {
-              headers: {"Authorization": localStorage.getItem('token')}
-          }).then((response) => {
-            //   Sets the state inclusive of that item
-            // console.log('items', response.data)
-              this.setState({
-                  items: response.data.item
-              })
-          }).catch((error)=>{
-              console.log(error)
-          })
-      }
+    getBucketItem = (id) => {
+        axios.get(BASE_URL + '/bucketlist/'+ id + '/item/', {
+            headers: {"Authorization": localStorage.getItem('token')}
+        }).then((response) => {
+        //   Sets the state inclusive of that item
+            this.setState({
+                items: response.data.item
+            })
+        }).catch((error)=>{ })
+    }
 
     //   OPENS DIALOG FOR VIEWING BUCKETLIST TITLE AND ITS'S ITEMS USING ITS ID ie CARD_ID
-      handleOpen = (event, cardId) => {
-        event.preventDefault();
-        this.setState({
-            open: true
-        });
+    handleOpen = (event, cardId) => {
+    event.preventDefault();
+    this.setState({
+        open: true
+    });
 
-        // Calls the method using the cardId defined
-        this.getBucketItem(cardId);
-      };
+    // Calls the method using the cardId defined
+    this.getBucketItem(cardId);
+    };
 
     //   CLOSES ALL DIALOGS
-      handleClose = () => {
-        this.setState({open: false, openEdit: false, openAdd: false});
-      };
+    handleClose = () => {
+    this.setState({open: false, openEdit: false, openAdd: false});
+    };
 
     //   OPENS DIALOG FOR EDITING A BUCKELIST TITLE
-      handleOpenEdit = () => {
-        this.setState({openEdit: true});
-      };
+    handleOpenEdit = () => {
+    this.setState({openEdit: true});
+    };
 
     //   OPENS DIALOG FOR ADD A BUCKETLIST ITEM
-      handleOpenAdd = () => {
-        this.setState({openAdd: true});
-      };
-
+    handleOpenAdd = () => {
+    this.setState({openAdd: true});
+    };
 
     // CREATES A BUCKETLIST ITEM
     handleAddItem = (event, id) => {
@@ -104,19 +98,16 @@ class Dynamiclist extends Component {
           .catch((error) => {
             toast.error(error.response.data.error)
           })
-
     }
 
     // SETS THE STATE OF THE ITEMS ARRAY TO INCLUDE THE ITEM CREATED
     handleNewItem(item){
         let currentItems = this.state.items
         currentItems.push(item)
-        console.log(item)
         this.setState({
             items: currentItems
         })
     }
-
 
     render(){
         const actions = [
@@ -128,7 +119,7 @@ class Dynamiclist extends Component {
           ];
 
         return(
-            <div>
+            <div className='dynamiclist'>
                 <List>
                     {/* This card displays the title,edit and delete button */}
                     <Card>
@@ -140,7 +131,8 @@ class Dynamiclist extends Component {
                         </Link>
 
                         <CardActions>
-                            <FlatButton 
+                            <FlatButton
+                                id="edit"
                                 label="Edit" 
                                 primary={true}
                                 onClick={this.handleOpenEdit}
@@ -197,9 +189,10 @@ class Dynamiclist extends Component {
     
           <strong>{this.props.bucketobj.date_modified}</strong><br/>
             <TextField
-                name="editBucketlistName"
-                hintText="Name your bucket"
-                onChange={this.props.handleChange}/>
+            name="editBucketlistName"
+            hintText="Name your bucket"
+            onChange={this.props.handleChange}
+            />
 
                 <FlatButton 
                 type="submit" 
@@ -214,11 +207,11 @@ class Dynamiclist extends Component {
 
         {/* DIALOG FOR ADDING A BUCKETLIST ITEM */}
         <Dialog
-          title={this.props.bucketobj.title}
-          actions={actions}
-          modal={true}
-          open={this.state.openAdd}
-          autoScrollBodyContent={true}
+        title={this.props.bucketobj.title}
+        actions={actions}
+        modal={true}
+        open={this.state.openAdd}
+        autoScrollBodyContent={true}
         >
           <TextField
             name="name"

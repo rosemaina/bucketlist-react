@@ -4,10 +4,9 @@ import {Card, CardTitle, CardText, CardMedia} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
 import AlertTexts from './AlertTexts';
-
 import Navbar from './Navbar';
-
 
 const axios = require('axios')
 
@@ -82,7 +81,7 @@ class ChangePassword extends Component {
         }
 
         return (
-            <div>
+            <div className='changePassword'>
            
             <Navbar 
             navBarTitle="BucketListly Adventure"
@@ -96,7 +95,8 @@ class ChangePassword extends Component {
                             title="Change Your Password"/>
                             <CardText>
                                 <form onSubmit={this.login}>
-                                    <TextField 
+                                    <TextField
+                                        id="email"
                                         name="email"
                                         floatingLabelText="Email"
                                         floatingLabelStyle={styles.floatingLabelStyle}
@@ -105,6 +105,7 @@ class ChangePassword extends Component {
                                     /><br />
 
                                     <TextField
+                                        id="password"
                                         name="password"
                                         floatingLabelText="Password"
                                         floatingLabelStyle={styles.floatingLabelStyle}
@@ -138,5 +139,4 @@ class ChangePassword extends Component {
         );
   }
 }
-
 export default ChangePassword;

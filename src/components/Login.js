@@ -4,12 +4,12 @@ import {Card, CardTitle, CardText, CardMedia} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import { Redirect, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import AlertTexts from './AlertTexts';
 
+import AlertTexts from './AlertTexts';
 import Navbar from './Navbar';
 
 
-const axios = require('axios')
+const axios = require('axios');
 
 
 class Login extends Component {
@@ -20,40 +20,44 @@ class Login extends Component {
             password:'',
             login_success: false,
             logout_success: false
-        }
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.login = this.login.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
     }
 
     // Method changes state for every instance of input
-    handleChange = (event) => {
-        const name = event.target.name
-        this.setState({[name]: event.target.value})
+    handleChange(event){
+        const name = event.target.name;
+        this.setState({[name]: event.target.value});
     }
 
     // Method login a user and gives them a token
-    login = (event) => {
+    login(event){
         event.preventDefault()
         axios.post('http://127.0.0.1:5000/auth/login', {
             email: this.state.email,
             password: this.state.password
-          }).then(resp => {
-              console.log(resp)
-              localStorage.setItem('token', resp.data['token']);
           })
-          .then((resp) => this.setState({login_success: true }))
+          .then(resp => {
+              localStorage.setItem('token', resp.data['token']);
+              this.setState({login_success: true});
+              toast.success("You have logged in successfully");
+          })
           .catch((error) => {
             toast.error(error.response.data.error)
              
-          })
+          });
     }
 
     // Methods logs out a user
-    handleLogout =(event) =>{
-        console.log('Clicked')
+    handleLogout(event){
         event.preventDefault()
         localStorage.removeItem('token');
         this.setState({
             logout_success: true
-        })
+        });
     }
 
     render() {
@@ -62,7 +66,7 @@ class Login extends Component {
             width: "50%",
             height: "auto",
             textAlign: 'center',
-        }
+        };
         const overlayContentStyle = {
             position: "absolute",
             bottom: "0%",
@@ -70,11 +74,11 @@ class Login extends Component {
             right: "0%",
             left: "0%",
             background: "rgba(0, 0, 0, 0.34)",
-        }
+        };
 
         const titleStyle ={
             color: "rgba(255, 255, 255, 0.87)",
-        }
+        };
 
         const styles={
             hintColor: {
@@ -83,23 +87,22 @@ class Login extends Component {
             floatingLabelStyle: {
                 color: "rgba(255, 255, 255, 0.87)",
             },
-        }
-
+        };
 
         // Redirections Conditions
         if (this.state.login_success) {
             return(
-                <Redirect to='/bucketlist' />
+                <Redirect to="/bucketlist" />
             );
         }
 
         if (this.state.logout_success) {
             return(
-                <Redirect to='/login' />
+                <Redirect to="/login" />
             );
         }
         return (
-            <div>
+            <div className="login">
                 
             <Navbar 
             navBarTitle="BucketListy Adventure"
@@ -116,7 +119,8 @@ class Login extends Component {
                             title="Login here"/>
                             <CardText>
                                 <form onSubmit={this.login}>
-                                    <TextField 
+                                    <TextField
+                                        id="email"
                                         name="email"
                                         hintText="example@email.com"
                                         hintStyle={styles.hintColor}
@@ -127,6 +131,7 @@ class Login extends Component {
                                     /><br />
 
                                     <TextField
+                                        id="password"
                                         name="password"
                                         hintText="password"
                                         hintStyle={styles.hintColor}
@@ -135,7 +140,9 @@ class Login extends Component {
                                         type="password"
                                         onChange = {this.handleChange}
                                     /><br />
-                                    <RaisedButton type="submit" label="login" primary={true}/>
+                                    <RaisedButton
+                                    id="submitButton"
+                                    type="submit" label="login" primary/>
                                     <br/><br/>
                                     <Link to={'/changepassword'}>
                                         forgot password?
