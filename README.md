@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/rosemaina/bucketlist-react.svg?branch=lilfeature)](https://travis-ci.org/rosemaina/bucketlist-react)
+[![Build Status](https://travis-ci.org/rosemaina/bucketlist-react.svg?branch=master)](https://travis-ci.org/rosemaina/bucketlist-react)
+[![Coverage Status](https://coveralls.io/repos/github/rosemaina/bucketlist-react/badge.svg?branch=master)](https://coveralls.io/github/rosemaina/bucketlist-react?branch=master)
 
 # BUCKETLIST_API FRONT-END
 
