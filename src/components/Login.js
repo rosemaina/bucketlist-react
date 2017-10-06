@@ -4,12 +4,12 @@ import {Card, CardTitle, CardText, CardMedia} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import { Redirect, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import AlertTexts from './AlertTexts';
 
+import AlertTexts from './AlertTexts';
 import Navbar from './Navbar';
 
 
-const axios = require('axios')
+const axios = require('axios');
 
 
 class Login extends Component {
@@ -20,7 +20,7 @@ class Login extends Component {
             password:'',
             login_success: false,
             logout_success: false
-        }
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.login = this.login.bind(this);
@@ -29,8 +29,8 @@ class Login extends Component {
 
     // Method changes state for every instance of input
     handleChange(event){
-        const name = event.target.name
-        this.setState({[name]: event.target.value})
+        const name = event.target.name;
+        this.setState({[name]: event.target.value});
     }
 
     // Method login a user and gives them a token
@@ -48,7 +48,7 @@ class Login extends Component {
           .catch((error) => {
             toast.error(error.response.data.error)
              
-          })
+          });
     }
 
     // Methods logs out a user
@@ -57,7 +57,7 @@ class Login extends Component {
         localStorage.removeItem('token');
         this.setState({
             logout_success: true
-        })
+        });
     }
 
     render() {
@@ -66,7 +66,7 @@ class Login extends Component {
             width: "50%",
             height: "auto",
             textAlign: 'center',
-        }
+        };
         const overlayContentStyle = {
             position: "absolute",
             bottom: "0%",
@@ -74,11 +74,11 @@ class Login extends Component {
             right: "0%",
             left: "0%",
             background: "rgba(0, 0, 0, 0.34)",
-        }
+        };
 
         const titleStyle ={
             color: "rgba(255, 255, 255, 0.87)",
-        }
+        };
 
         const styles={
             hintColor: {
@@ -87,13 +87,12 @@ class Login extends Component {
             floatingLabelStyle: {
                 color: "rgba(255, 255, 255, 0.87)",
             },
-        }
-
+        };
 
         // Redirections Conditions
         if (this.state.login_success) {
             return(
-                <Redirect to='/bucketlist' />
+                <Redirect to="/bucketlist" />
             );
         }
 
@@ -103,7 +102,7 @@ class Login extends Component {
             );
         }
         return (
-            <div className='login'>
+            <div className="login">
                 
             <Navbar 
             navBarTitle="BucketListy Adventure"
@@ -143,7 +142,7 @@ class Login extends Component {
                                     /><br />
                                     <RaisedButton
                                     id="submitButton"
-                                    type="submit" label="login" primary={true}/>
+                                    type="submit" label="login" primary/>
                                     <br/><br/>
                                     <Link to={'/changepassword'}>
                                         forgot password?

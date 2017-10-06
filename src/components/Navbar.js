@@ -2,6 +2,7 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 
 
@@ -20,5 +21,9 @@ const Navbar = (props) => (
   </div>
 );
 
+// Type checking PropTypes (Validation)
+Navbar.propTypes = {
+  navBarTitle: PropTypes.string
+};
 
 export default Navbar;

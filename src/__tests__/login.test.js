@@ -1,7 +1,6 @@
 import React from 'react';
 import moxios from 'moxios';
 import  sinon from 'sinon';
-
 import { mountWithContext, shallowWithContext } from '../utils/test-utils';
 
 import Login from '../components/Login';
@@ -36,7 +35,6 @@ describe('Login Page', () => {
       name: 'email',
     };
 
-
     it('finds prev page', () =>{
       sinon.spy(Login.prototype, 'login');
       const wrapper = mountWithContext(<Login />);
@@ -48,7 +46,6 @@ describe('Login Page', () => {
     loginWrapper.update();
     expect(loginWrapper.state().email).toEqual(target.value);
   });
-
 
   it('shows password has been entered', () => {
     const inputPassword = loginWrapper.find('#password');
@@ -64,7 +61,6 @@ describe('Login Page', () => {
     expect(loginWrapper.state().password).toEqual(target.value);
   });
 
-
   it('shows that user can login', () => {
     const wrapper = mountWithContext(<Login />);
     wrapper.setState({login_success: false});
@@ -72,11 +68,9 @@ describe('Login Page', () => {
     expect(wrapper.find('div.login').length).toEqual(1);
   });
 
-
   it('log out a user', () =>{
     loginWrapper.setState({logout_success: false});
     loginWrapper.instance().handleLogout({preventDefault: () => {}});
     expect(loginWrapper.instance().state.logout_success).toEqual(true);
   });
-
 });

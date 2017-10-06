@@ -27,20 +27,23 @@ class BucketItems extends Component {
             logout_success: false
         };
         this.handleUpdateBucketItem = this.handleUpdateBucketItem.bind(this)
+        this.handleOpen = this.handleOpen.bind(this)
+        this.handleClose = this.handleClose.bind(this)
+        this.handleDeleteBucketItem = this.handleDeleteBucketItem.bind(this)
       }
       
       // OPENS DIALOG FOR VIEWING BUCKETLIST TITLE AND ITS'S ITEMS USING ITS ID ie CARD_ID
-      handleOpen = (event, itemId) => {
+      handleOpen(event, itemId){
         this.setState({
             open: true,
             itemId: itemId
         });
-        // // Calls the method using the cardId defined
+        // Calls the method using the cardId defined
         // this.getBucketItem(cardId);
       };
 
       //   CLOSES ALL DIALOGS
-      handleClose = () => {
+      handleClose(){
         this.setState({open: false});
       };
 
@@ -57,7 +60,7 @@ class BucketItems extends Component {
         }
 
         // This method deletes a bucketlist item
-        handleDeleteBucketItem = (event, bucket_id, id) => {
+        handleDeleteBucketItem(event, bucket_id, id){
             axios.delete(BASE_URL + `/bucketlist/${bucket_id}/item/${id}/`,
             {
                 headers: {"Authorization": localStorage.getItem('token')}
@@ -66,33 +69,34 @@ class BucketItems extends Component {
                 })
             }
 
-            // This method updates a bucketlist item
-            handleUpdateBucketItem(event, bucket_id){
-                axios.put(BASE_URL + `/bucketlist/${bucket_id}/item/${this.state.itemId}/`,
-                {name: this.state.itemName},
-                {
-                    headers: {"Authorization": localStorage.getItem('token')}
-                }).then((response) => {
-                    this.handleGetBucketItems(bucket_id)
-                    toast.success("Item name successfully updated")
-                    }).catch((error) => {
-                        toast.error(error.response.data.error)
-                    })
-
-                }
-
-                handleSearchItem = (searchText) => {
-                    axios.get(BASE_URL + `/bucketlist/${this.props.match.params.id}/item?q=`+searchText,
-                        {headers: {
-                            "Authorization": localStorage.getItem('token'),
-                            "content-Type":'application/json'
-                        }
-                        }).then(response => {
-                            this.setState({
-                            items :response.data.item
-                        })      
+        // This method updates a bucketlist item
+        handleUpdateBucketItem(event, bucket_id){
+            axios.put(BASE_URL + `/bucketlist/${bucket_id}/item/${this.state.itemId}/`,
+            {name: this.state.itemName},
+            {
+                headers: {"Authorization": localStorage.getItem('token')}
+            }).then((response) => {
+                this.handleGetBucketItems(bucket_id)
+                toast.success("Item name successfully updated")
+                }).catch((error) => {
+                    toast.error(error.response.data.error)
                 })
-                }
+
+            }
+
+            // This method helps for searching an item
+            handleSearchItem = (searchText) => {
+                axios.get(BASE_URL + `/bucketlist/${this.props.match.params.id}/item?q=`+searchText,
+                    {headers: {
+                        "Authorization": localStorage.getItem('token'),
+                        "content-Type":'application/json'
+                    }
+                    }).then(response => {
+                        this.setState({
+                        items :response.data.item
+                    })      
+            })
+            }
             
             // Gets all the bucketlist items before the page renders
             componentWillMount(){
@@ -130,7 +134,6 @@ class BucketItems extends Component {
                 <Redirect to='/login' />
             );
         }
-
 
         let items 
         if (this.state.items.length > 0) {
@@ -178,6 +181,7 @@ class BucketItems extends Component {
                 /><br />
                     {items}
                 </List> 
+
                 {/* DIALOG FOR ADDING A BUCKETLIST ITEM */}
                 <Dialog
                     title='Update Item Name'

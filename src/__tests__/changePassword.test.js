@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import ChangePassword from '../components/ChangePassword';
 import { mountWithContext } from '../utils/test-utils';
+
+import ChangePassword from '../components/ChangePassword';
 
 
 describe('Change Password Page', () => {
@@ -13,7 +14,6 @@ describe('Change Password Page', () => {
   it('has div with correct class', () => {
     expect(wrapper.find('.changePassword').length).to.equal(1);
   });
-
 
   it('shows email has been entered', () => {
     const inputEmail = wrapper.find('#email');
@@ -29,7 +29,6 @@ describe('Change Password Page', () => {
     expect(wrapper.state().email).to.equal(target.value);
   });
 
-
   it('shows password has been entered', () => {
     const inputPassword = wrapper.find('#password');
     expect(inputPassword.length).to.equal(1);
@@ -43,5 +42,4 @@ describe('Change Password Page', () => {
     wrapper.update();
     expect(wrapper.state().email).to.equal(target.value);
   });
-  
 });

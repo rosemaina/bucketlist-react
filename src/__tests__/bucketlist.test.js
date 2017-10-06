@@ -65,7 +65,6 @@ describe('Bucketlist Page', () => {
     expect(Bucketlist.prototype.handleNextPage.called).to.be.equal(true);
   });
 
-
   it('finds prev page', () =>{
     sinon.spy(Bucketlist.prototype, 'handlePrevPage');
     const wrapper = mountWithContext(<Bucketlist />);

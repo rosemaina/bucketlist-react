@@ -50,36 +50,11 @@ describe('Dynamiclist Page', () => {
     expect(wrapper.instance().state.name).to.be.equal('');
   });
 
-  // it('adds a bucketlist item', () =>{
-  //   wrapper.setState({items: []});
-  //   wrapper.instance().handleNewItem(item);
-  //   expect(wrapper.instance().state.items).to.be.equal([item]);
-    
-  // });
-
-  // it('gets bucketlist item', () =>{
-  //   // wrapper.setState({id : '1'});
-  //   wrapper.instance().getBucketItem(itemId);
-  //   expect(wrapper.instance().state.itemObj).to.be.equal('activity one');
-  //   wrapper.setState({name : ''});
-  //   expect(wrapper.instance().state.name).to.be.equal('');
-  // });
-
   it('shows name has been entered', () => {
     wrapper.setState({name: ''})
     wrapper.instance().handleOpen(event);
     expect(wrapper.instance().state.name).to.equal('');
-
-    // const target = {
-    //   name: 'bucketlist',
-    // };
-
-    // target.simulate('change', { target });
-    // wrapper.update();
-    // expect(wrapper.state().email).to.equal(target.value);
   });
-
-
 
   it('open main modal for showing bucketlist items ', () =>{
     wrapper.setState({open : false});
@@ -116,6 +91,4 @@ describe('Dynamiclist Page', () => {
     wrapper.instance().handleClose(event);
     expect(wrapper.instance().state.openAdd).to.be.equal(false);
   });
-
-
 });

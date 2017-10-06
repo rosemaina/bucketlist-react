@@ -4,8 +4,8 @@ import {Card, CardTitle, CardText, CardMedia} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import AlertTexts from './AlertTexts';
 
+import AlertTexts from './AlertTexts';
 import Navbar from './Navbar';
 
 const axios = require('axios')
@@ -24,12 +24,13 @@ class Register extends Component {
             error: false,
             errorText: ''
         }}
-    
+        
         handleChange = (event) => {
             const name = event.target.name
             this.setState({[name]: event.target.value})
         }
-    
+        
+        // Method registers a user
         register = (event) => {
             //Prevents react reloading a page
             event.preventDefault()
@@ -45,7 +46,6 @@ class Register extends Component {
                 })
         }
     
-
     render() {
 
         const style = {

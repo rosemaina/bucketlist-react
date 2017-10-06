@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import Register from '../components/Register';
 import { mountWithContext } from '../utils/test-utils';
+
+import Register from '../components/Register';
 
 
 describe('Sign up Page', () => {
@@ -13,7 +14,6 @@ describe('Sign up Page', () => {
   it('has div with correct class', () => {
     expect(wrapper.find('.register').length).to.equal(1);
   });
-
 
   it('shows email has been entered', () => {
     const inputEmail = wrapper.find('#email');
@@ -28,7 +28,6 @@ describe('Sign up Page', () => {
     wrapper.update();
     expect(wrapper.state().email).to.equal(target.value);
   });
-
 
   it('shows password has been entered', () => {
     const inputPassword = wrapper.find('#password');

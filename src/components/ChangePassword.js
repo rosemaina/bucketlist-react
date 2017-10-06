@@ -4,10 +4,9 @@ import {Card, CardTitle, CardText, CardMedia} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
 import AlertTexts from './AlertTexts';
-
 import Navbar from './Navbar';
-
 
 const axios = require('axios')
 
@@ -140,5 +139,4 @@ class ChangePassword extends Component {
         );
   }
 }
-
 export default ChangePassword;

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import LoggedinNavBar from './LoggedinNavBar';
-import Addbucket from './Addbucket';
-import Dynamiclist from './Dynamiclist'
 import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
-
+import LoggedinNavBar from './LoggedinNavBar';
+import Addbucket from './Addbucket';
+import Dynamiclist from './Dynamiclist'
 import AlertTexts from './AlertTexts';
 
 
@@ -39,16 +38,17 @@ class Bucketlist extends Component {
       }
 
       componentWillMount(){
-        this.getBucketlist()
+        this.getBucketlist();
     }
-
+    
     handleChange(event){
         this.setState({
             // Value of input box which has this value
             title: event.target.value
-        })
+        });
     }
 
+    // Method gets all bucketlist items
     getBucketlist(){
         axios.get(BASE_URL + '/bucketlist/',{
             headers: {"Authorization": localStorage.getItem('token')}
@@ -57,10 +57,11 @@ class Bucketlist extends Component {
                 bucketlists: response.data.bucketlist,
                 next_page :response.data.next_page,
                 prev_page :response.data.prev_page,
-            })
-        }).catch((error)=>{})
+            });
+        }).catch((error)=>{});
     }
 
+    // Method gets link to the next page
     handleNextPage(){
         axios.get(BASE_URL + this.state.next_page,
             {
@@ -75,6 +76,7 @@ class Bucketlist extends Component {
         }).catch((error)=>{})
     }
 
+    // Method gets link to the previous page
     handlePrevPage(){
         axios.get(BASE_URL + this.state.prev_page,
             {
@@ -89,6 +91,7 @@ class Bucketlist extends Component {
         }).catch((error)=>{})
     }
 
+    // Method handles search for bucketlists
     handleSearch(event) {
         axios.get(BASE_URL + '/bucketlist'+'?q='+ event.target.value,
         {
@@ -103,16 +106,18 @@ class Bucketlist extends Component {
     });
     }
 
+    // Method updates list of bucketlists with the new bucketlist
     handleNewBucketlist(bucketlist){
-        let currentBucketlists = this.state.bucketlists
-        currentBucketlists.push(bucketlist)
+        let currentBucketlists = this.state.bucketlists;
+        currentBucketlists.push(bucketlist);
         this.setState({
             bucketlists: currentBucketlists
-        })
+        });
     }
 
+    // Method adds a new bucketlist
     handleAddBucketlist(event){
-        event.preventDefault()
+        event.preventDefault();
         axios.post(BASE_URL + '/bucketlist/', {
             title: this.state.title
         }, {
@@ -124,13 +129,12 @@ class Bucketlist extends Component {
         }).then((response) => {
           this.setState({
               title: ''
-          })
-          this.getBucketlist()          
+          });
+          this.getBucketlist();       
         })
           .catch((error) => {
-            toast.error(error.response.data.error)
+            toast.error(error.response.data.error);
           });
-
     }
 
     // Method edits a bucketlist title
@@ -162,8 +166,7 @@ class Bucketlist extends Component {
         .catch((error) => {
             toast.error(error.response.data.error);
         });
-        }
-
+    }
     
     // Method logs out a user gf
     handleLogout(event){
