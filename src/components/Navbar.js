@@ -14,9 +14,6 @@ const Navbar = (props) => (
         <div>
           <Link to={'/login'}><FlatButton label="Login" /></Link>
           <Link to={'/register'}><RaisedButton label="Sign up" primary /></Link>
-          {/* <RaisedButton label="Log Out" primary onClick={props.logout}/>
-          <Link to={'/deleteuser'}><RaisedButton label="Delete" secondary /></Link>
-           */}
         </div>
       }
     />

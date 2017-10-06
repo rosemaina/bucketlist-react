@@ -42,7 +42,6 @@ class Bucketlist extends Component {
         this.getBucketlist()
     }
 
-
     handleChange(event){
         this.setState({
             // Value of input box which has this value
@@ -90,7 +89,6 @@ class Bucketlist extends Component {
         }).catch((error)=>{})
     }
 
-
     handleSearch(event) {
         axios.get(BASE_URL + '/bucketlist'+'?q='+ event.target.value,
         {
@@ -101,8 +99,8 @@ class Bucketlist extends Component {
         ).then(response => {
             this.setState({
             bucketlists :response.data.bucketlist
-        })
-    })
+        });
+    });
     }
 
     handleNewBucketlist(bucketlist){
@@ -131,7 +129,7 @@ class Bucketlist extends Component {
         })
           .catch((error) => {
             toast.error(error.response.data.error)
-          })
+          });
 
     }
 
@@ -143,11 +141,11 @@ class Bucketlist extends Component {
             headers: {"Authorization": localStorage.getItem('token')}
         })
         .then((response) => {
-            this.getBucketlist()
+            this.getBucketlist();
         })
         .catch((error) => {
-            toast.error(error.response.data.error)
-        })
+            toast.error(error.response.data.error);
+        });
     }
 
     // Method deletes a bucketlist object using its id
@@ -157,23 +155,23 @@ class Bucketlist extends Component {
             headers: {"Authorization": localStorage.getItem('token')}
         })
         .then((response) => {
-            toast.success(response.data.message)
+            toast.success(response.data.message);
             this.getBucketlist();
             
         })
         .catch((error) => {
-            toast.error(error.response.data.error)
-        })
+            toast.error(error.response.data.error);
+        });
         }
 
     
     // Method logs out a user gf
     handleLogout(event){
-        event.preventDefault()
+        event.preventDefault();
         localStorage.removeItem('token');
         this.setState({
             logout_success: true
-        })
+        });
     }
 
     render(){
@@ -196,14 +194,14 @@ class Bucketlist extends Component {
 
         if (this.state.logout_success) {
             return(
-                <Redirect to='/login' />
+                <Redirect to= "/login" />
             );
         }
         return(
             
-            <div className='bucketlist'>
+            <div className="bucketlist">
                 <LoggedinNavBar 
-                navBarTitle='BucketListy Adventure'
+                navBarTitle=""
                 logout={this.handleLogout}/>
 
             
@@ -230,12 +228,12 @@ class Bucketlist extends Component {
                 <FlatButton 
                 type="submit"
                 label="prev"
-                onClick={(event => this.handlePrevPage())}
+                onClick={event => this.handlePrevPage()}
                 />
                 <FlatButton 
                 type="submit"
                 label="next"
-                onClick={(event => this.handleNextPage())}
+                onClick={event => this.handleNextPage()}
                 />
                 </div>
             </div>
