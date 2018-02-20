@@ -1,10 +1,10 @@
 import React from 'react';
 import moxios from 'moxios';
 import  sinon from 'sinon';
-import { mountWithContext, shallowWithContext } from '../utils/test-utils';
+import { mountWithContext, shallowWithContext } from '../src/utils/test-utils';
 
-import Login from '../components/Login';
-import Register from '../components/Register';
+import Login from '../src/components/Login';
+import Register from '../src/components/Register';
 
 
 describe('Login Page', () => {

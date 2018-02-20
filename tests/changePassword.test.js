@@ -1,18 +1,18 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mountWithContext } from '../utils/test-utils';
+import { mountWithContext } from '../src/utils/test-utils';
 
-import Register from '../components/Register';
+import ChangePassword from '../src/components/ChangePassword';
 
 
-describe('Sign up Page', () => {
+describe('Change Password Page', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = mountWithContext(<Register />);
+    wrapper = mountWithContext(<ChangePassword />);
   });
 
   it('has div with correct class', () => {
-    expect(wrapper.find('.register').length).to.equal(1);
+    expect(wrapper.find('.changePassword').length).to.equal(1);
   });
 
   it('shows email has been entered', () => {

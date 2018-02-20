@@ -25,13 +25,13 @@ class Register extends Component {
             errorText: ''
         }}
         
-        handleChange = (event) => {
+        handleChange(event) {
             const name = event.target.name
             this.setState({[name]: event.target.value})
         }
         
         // Method registers a user
-        register = (event) => {
+        register(event) {
             //Prevents react reloading a page
             event.preventDefault()
                 axios.post('http://127.0.0.1:5000/auth/register', {

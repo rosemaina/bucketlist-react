@@ -30,7 +30,7 @@ class Dynamiclist extends Component {
       }
 
     //   Method changes state for every instance of input
-    handleChange = (event) => {
+    handleChange (event) {
         this.setState({
         // Value of input box which has this value
         name: event.target.value
@@ -38,7 +38,7 @@ class Dynamiclist extends Component {
 }
 
     // This method gets a bucketlist's items using its id
-    getBucketItem = (id) => {
+    getBucketItem (id) {
         axios.get(BASE_URL + '/bucketlist/'+ id + '/item/', {
             headers: {"Authorization": localStorage.getItem('token')}
         }).then((response) => {
@@ -50,7 +50,7 @@ class Dynamiclist extends Component {
     }
 
     //   OPENS DIALOG FOR VIEWING BUCKETLIST TITLE AND ITS'S ITEMS USING ITS ID ie CARD_ID
-    handleOpen = (event, cardId) => {
+    handleOpen (event, cardId) {
     event.preventDefault();
     this.setState({
         open: true
@@ -61,22 +61,22 @@ class Dynamiclist extends Component {
     };
 
     //   CLOSES ALL DIALOGS
-    handleClose = () => {
+    handleClose() {
     this.setState({open: false, openEdit: false, openAdd: false});
     };
 
     //   OPENS DIALOG FOR EDITING A BUCKELIST TITLE
-    handleOpenEdit = () => {
+    handleOpenEdit() {
     this.setState({openEdit: true});
     };
 
     //   OPENS DIALOG FOR ADD A BUCKETLIST ITEM
-    handleOpenAdd = () => {
+    handleOpenAdd() {
     this.setState({openAdd: true});
     };
 
     // CREATES A BUCKETLIST ITEM
-    handleAddItem = (event, id) => {
+    handleAddItem(event, id) {
         axios.post(BASE_URL + '/bucketlist/' + id +'/item/', {
             name: this.state.name
         }, {

@@ -2,9 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import moxios from 'moxios';
 import  sinon from 'sinon';
-import { shallowWithContext, mountWithContext } from '../utils/test-utils';
+import { shallowWithContext, mountWithContext } from '../src/utils/test-utils';
 
-import BucketItems from '../components/BucketItems';
+import BucketItems from '../src/components/BucketItems';
 
 
 describe('Bucketlist Page', () => {

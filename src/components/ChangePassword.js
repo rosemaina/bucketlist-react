@@ -23,14 +23,14 @@ class ChangePassword extends Component {
         }
     }
 
-    handleChange = (event) => {
-        const name = event.target.name
+    handleChange (event) {
+        const name = event.target.name;
         this.setState({[name]: event.target.value})
     }
 
     // Method changes a user's password
-    handleChangePassword = (event) => {
-        event.preventDefault()
+    handleChangePassword (event) {
+        event.preventDefault();
         if (this.state.password === this.state.confirm_password) {
             axios.post('http://127.0.0.1:5000/auth/reset_password', {
                 email: this.state.email,
@@ -40,7 +40,6 @@ class ChangePassword extends Component {
               .then((response) => this.setState({change_password_success: true}))
 
               .catch((error) => {
-                console.log(error)
                 toast.error(error.data.error);
             })
         } else{ 
@@ -76,12 +75,12 @@ class ChangePassword extends Component {
 
         if (this.state.change_password_success) {
             return(
-                <Redirect to='/login' />
+                <Redirect to="/login" />
             );
         }
 
         return (
-            <div className='changePassword'>
+            <div className="changePassword">
            
             <Navbar 
             navBarTitle="BucketListly Adventure"

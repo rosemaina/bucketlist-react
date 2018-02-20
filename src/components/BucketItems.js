@@ -11,8 +11,8 @@ import AlertTexts from './AlertTexts';
 import LoggedinNavBar from './LoggedinNavBar';
 
 
-const axios = require('axios')
-const BASE_URL = 'http://127.0.0.1:5000'
+const axios = require('axios');
+const BASE_URL = 'http://127.0.0.1:5000';
 
 
 class BucketItems extends Component {
@@ -26,10 +26,10 @@ class BucketItems extends Component {
             searchText: '',
             logout_success: false
         };
-        this.handleUpdateBucketItem = this.handleUpdateBucketItem.bind(this)
-        this.handleOpen = this.handleOpen.bind(this)
-        this.handleClose = this.handleClose.bind(this)
-        this.handleDeleteBucketItem = this.handleDeleteBucketItem.bind(this)
+        this.handleUpdateBucketItem = this.handleUpdateBucketItem.bind(this);
+        this.handleOpen = this.handleOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.handleDeleteBucketItem = this.handleDeleteBucketItem.bind(this);
       }
       
       // OPENS DIALOG FOR VIEWING BUCKETLIST TITLE AND ITS'S ITEMS USING ITS ID ie CARD_ID
@@ -85,7 +85,7 @@ class BucketItems extends Component {
             }
 
             // This method helps for searching an item
-            handleSearchItem = (searchText) => {
+            handleSearchItem  (searchText) {
                 axios.get(BASE_URL + `/bucketlist/${this.props.match.params.id}/item?q=`+searchText,
                     {headers: {
                         "Authorization": localStorage.getItem('token'),
@@ -104,12 +104,12 @@ class BucketItems extends Component {
             }
 
             // Method logs out a user 
-            handleLogout =(event) =>{
-                event.preventDefault()
+            handleLogout(event) {
+                event.preventDefault();
                 localStorage.removeItem('token');
                 this.setState({
                     logout_success: true
-                })
+                });
             }
 
     // DISPLAYS 

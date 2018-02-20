@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallowWithContext, mountWithContext } from '../utils/test-utils';
+import { shallowWithContext, mountWithContext } from '../src/utils/test-utils';
 import moxios from 'moxios';
 import {spy, sinon} from 'sinon';
 
-import Bucketlist from '../components/Bucketlist';
-import Addbucket from '../components/Addbucket';
+import Bucketlist from '../src/components/Bucketlist';
+import Addbucket from '../src/components/Addbucket';
 
 
 describe('Addbucket Page', () => {
